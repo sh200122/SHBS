@@ -1,7 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Student from "@/components/Student";
 import { useEffect } from "react";
 import Taro from "@tarojs/taro";
 export default function Dashboard() {
@@ -24,7 +23,6 @@ export default function Dashboard() {
     <View className="mt-10 w-screen h-screen bg-[#e8e8e8]">
       <Header />
       <Text>首页</Text>
-      <Student />
       <Footer />
     </View>
   );

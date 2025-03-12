@@ -1,32 +1,136 @@
-import React from 'react'
-import { Button, Input, Text, Label, Textarea } from '@tarojs/components'
-import Taro from '@tarojs/taro'
-type Props = {}
+import React, { useState } from "react";
+import {
+  Button,
+  Input,
+  Text,
+  Label,
+  Textarea,
+  Form,
+  View,
+  Image,
+} from "@tarojs/components";
+import Taro from "@tarojs/taro";
+type Props = {};
 
 export default function add({}: Props) {
-  const handleSave = () => {
-    Taro.navigateTo({
-      url: '/pages/products/index'
-    })
-  }
+  const [formData, setFormData] = useState({
+    image: "",
+    name: "",
+    price: "",
+    description: "",
+  });
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      Taro.request({
+        url: "http://localhost:5000/api/product/add",
+        method: "POST",
+        data: formData,
+      });
+      setFormData({
+        image: "",
+        name: "",
+        price: "",
+        description: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChooseImage = async () => {
+    try {
+      const res = await Taro.chooseImage({
+        count: 1,
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
+      });
+      setFormData({ ...formData, image: res.tempFilePaths[0] });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCancel = () => {
     Taro.navigateTo({
-      url: '/pages/products/index'
-    })
-  }
+      url: "/pages/products/index",
+    });
+  };
   return (
-    <view className='w-screen h-screen bg-[#e8e8e8] flex items-center justify-center'>
-        <view className='w-full h-[80%] bg-white flex flex-col items-center justify-center gap-y-5 px-5'>
-          <Text className='text-2xl font-bold'>添加闲置</Text>
-          <Label className='w-full h-[50px]'>商品</Label>
-          <Input className='w-full h-[50px] border-solid border-[1px] p-2 border-gray-300' placeholder='请输入商品'/>
-          <Label className='w-full h-[50px]'>描述</Label>
-          <Textarea className='w-full h-[100px] border-solid border-[1px] p-2 border-gray-300' placeholder='请输入描述...' />
-          <Label className='w-full h-[50px]'>价格</Label>
-          <Input className='w-full h-[50px] border-solid border-[1px] p-2 border-gray-300' placeholder='请输入价格' />
-          <Button className='w-full bg-[#fbb713] text-white h-[6%]' hoverClass='bg-[#a3770c]' onClick={handleSave}>保存</Button>
-          <Button className='w-full bg-red-500 text-white h-[6%] ' hoverClass='bg-red-600' onClick={handleCancel}>取消</Button>
-        </view>
+    <view className="w-screen h-screen bg-[#e8e8e8] flex items-center justify-center p-4">
+      <Form
+        onSubmit={handleSubmit}
+        className="w-full max-w-lg h-auto bg-white rounded-lg shadow-lg p-6 space-y-4"
+      >
+        <Text className="text-2xl font-bold block text-center mb-6">
+          添加闲置
+        </Text>
+        <Label className="block text-gray-700 text-sm font-bold">图片:</Label>
+        <View className="w-full flex flex-col items-center space-y-2">
+          {formData.image ? (
+            <Image
+              src={formData.image}
+              className="w-full h-full max-w-[300px] max-h-[300px] object-contain rounded"
+              mode="widthFix"
+            />
+          ) : (
+            <View
+              className="w-32 h-32 bg-gray-200 rounded flex items-center justify-center cursor-pointer hover:bg-gray-300"
+              onClick={handleChooseImage}
+            >
+              <Text className="text-gray-500 text-2xl">+</Text>
+            </View>
+          )}
+        </View>
+        <Label className="block text-gray-700 text-sm font-bold mt-1">
+          商品:
+        </Label>
+        <Input
+          name="name"
+          type="text"
+          value={formData.name}
+          onInput={(e) => setFormData({ ...formData, name: e.detail.value })}
+          className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
+          placeholder="请输入商品"
+        />
+        <Label className="block text-gray-700 text-sm font-bold mt-1">
+          价格:
+        </Label>
+        <Input
+          name="price"
+          type="number"
+          value={formData.price}
+          onInput={(e) => setFormData({ ...formData, price: e.detail.value })}
+          className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
+          placeholder="请输入价格"
+        />
+        <Label className="block text-gray-700 text-sm font-bold mt-1">
+          描述:
+        </Label>
+        <Textarea
+          name="description"
+          value={formData.description}
+          onInput={(e) =>
+            setFormData({ ...formData, description: e.detail.value })
+          }
+          className="w-full h-[100px] border-solid border-[1px] p-2 border-gray-300 rounded"
+          placeholder="请输入描述..."
+        />
+        <Button
+          className="w-full bg-[#fbb713] text-white h-12 rounded mt-6"
+          hoverClass="bg-[#a3770c]"
+          formType="submit"
+        >
+          保存
+        </Button>
+        <Button
+          className="w-full bg-red-500 text-white h-12 rounded mt-4"
+          hoverClass="bg-red-600"
+          onClick={handleCancel}
+        >
+          取消
+        </Button>
+      </Form>
     </view>
-  )
+  );
 }
