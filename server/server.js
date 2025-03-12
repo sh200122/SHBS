@@ -12,9 +12,6 @@ import productRoutes from "./routes/product.js";
 import adminRoutes from "./routes/admin.js";
 import dotenv from "dotenv";
 import connectDB from "./db/connection.js";
-import uploadRouter from './routes/upload.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -24,15 +21,12 @@ const app = express();
 
 connectDB();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/product", productRoutes);
 app.use("/api/admin", adminRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-app.use('/api/upload', uploadRouter);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -89,8 +89,8 @@ export default function Products({}: Props) {
                   <Text className="text-sm text-gray-500">{product.description}</Text>
                   <Text className="text-sm text-gray-500">{product.price}￥</Text>
                   <View className="flex gap-2">
-                    <Button className="" hoverClass="bg-[#a3770c]" onClick={() => Taro.navigateTo({ url: `/pages/products/edit?id=${product._id}` })}>编辑</Button>
-                    <Button className="" hoverClass="bg-[#a3770c]" onClick={() => handleDeleteProduct(product)}>删除</Button>
+                    <Button className="bg-[#fbb713] text-white" hoverClass="bg-[#a3770c]" onClick={() => Taro.navigateTo({ url: `/pages/products/edit?id=${product._id}` })}>编辑</Button>
+                    <Button className="bg-red-500 text-white" hoverClass="bg-red-600" onClick={() => handleDeleteProduct(product)}>删除</Button>
                   </View>
                 </View>
               </View>

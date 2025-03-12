@@ -22,7 +22,7 @@ export default function edit({}: Props) {
     const id = Taro.getCurrentInstance().router?.params?.id;
     Taro.request({
       url: `http://localhost:5000/api/product/${id}`,
-      method: "GET", 
+      method: "GET",
       success: (res) => {
         const product = res.data;
         setName(product.name);
@@ -57,11 +57,16 @@ export default function edit({}: Props) {
           title: "编辑商品成功",
           icon: "success",
         });
+        setTimeout(() => {
+            Taro.navigateTo({
+              url: "/pages/products/index",
+            });
+          }, 1500);
       },
       fail: (err) => {
         console.log(err);
         Taro.showToast({
-          title: "编辑商品失败",
+          title: "编辑商品失败，请重试",
           icon: "none",
         });
       },
@@ -72,40 +77,31 @@ export default function edit({}: Props) {
     try {
       const res = await Taro.chooseImage({
         count: 1,
-        sizeType: ['compressed'],
-        sourceType: ['album', 'camera'],
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
       });
-  
-      // 上传图片到服务器
+
+      // 将图片转换为Base64
       const tempFilePath = res.tempFilePaths[0];
-      const uploadRes = await Taro.uploadFile({
-        url: 'http://localhost:5000/api/upload', // 确保后端有这个上传接口
-        filePath: tempFilePath,
-        name: 'file',
-      });
-  
-      if (uploadRes.statusCode === 200) {
-        const data = JSON.parse(uploadRes.data);
-        setImage(data.url); // 保存服务器返回的图片URL
-      } else {
-        throw new Error('上传失败');
-      }
-    } catch (error) {
-      console.error('图片处理失败:', error);
+      const fileContent = await Taro.getFileSystemManager().readFileSync(
+        tempFilePath,
+        "base64"
+      );
+      const base64Image = `data:image/jpeg;base64,${fileContent}`;
+
+      setImage(base64Image);
+
       Taro.showToast({
-        title: '图片上传失败',
-        icon: 'none',
+        title: "图片选择成功",
+        icon: "success",
+      });
+    } catch (error) {
+      console.error("图片处理失败:", error);
+      Taro.showToast({
+        title: "图片处理失败",
+        icon: "none",
       });
     }
-  };
-  
-  // 修改Image组件的显示方式
-  const getImageUrl = (url: string) => {
-    // 如果是完整的URL就直接返回，否则拼接基础URL
-    if (url.startsWith('http')) {
-      return url;
-    }
-    return `http://localhost:5000${url}`;
   };
 
   const handleCancel = () => {
@@ -123,29 +119,19 @@ export default function edit({}: Props) {
           编辑商品
         </Text>
         <Label className="block text-gray-700 text-sm font-bold">图片:</Label>
-        <View className="w-full flex flex-col items-center space-y-2">
-          {image ? (
-            <View className="relative">
-              <Image
-                src={getImageUrl(image)}
-                className="w-full h-[200px] object-contain rounded"
-                mode="aspectFit"
-              />
-              <Button
-                className="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
-                onClick={() => setImage("")}
-              >
-                X
-              </Button>
-            </View>
-          ) : (
-            <Button
-              className="w-full h-[200px] border-2 border-dashed border-gray-300 rounded flex items-center justify-center"
-              onClick={handleChooseImage}
-            >
-              点击上传图片
-            </Button>
-          )}
+        <View className="w-full flex items-center justify-center space-x-2">
+          <Image
+            src={image}
+            className="w-full h-full max-w-[300px] max-h-[300px] object-contain rounded"
+            mode="widthFix"
+          />
+          <Button
+            className="bg-[#fbb713] text-white h-6 w-30 rounded text-xs leading-6"
+            hoverClass="bg-[#a3770c]"
+            onClick={handleChooseImage}
+          >
+            重新选择图片
+          </Button>
         </View>
         <Label className="block text-gray-700 text-sm font-bold mt-1">
           商品:

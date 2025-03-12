@@ -21,19 +21,38 @@ export default function add({}: Props) {
   });
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!formData.image || !formData.name || !formData.price) {
+      Taro.showToast({
+        title: '请填写必选项',
+        icon: 'error',
+        duration: 2000
+      });
+      return;
+    }
     try {
-      Taro.request({
+      const res = await Taro.request({
         url: "http://localhost:5000/api/product/add",
         method: "POST",
         data: formData,
       });
-      setFormData({
-        image: "",
-        name: "",
-        price: "",
-        description: "",
-      });
-    } catch (error) {
+      if (res.statusCode === 201) {
+        setFormData({
+          image: "",
+          name: "",
+          price: "",
+          description: "",
+        });
+        Taro.showToast({
+          title: "添加成功",
+          icon: "success",
+        });
+        setTimeout(() => {
+          Taro.navigateTo({
+            url: "/pages/products/index",
+          });
+        }, 1000);
+      }
+    } catch (error: any) {
       console.log(error);
     }
   };
