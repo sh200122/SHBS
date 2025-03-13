@@ -10,6 +10,7 @@ import express from "express";
 import cors from "cors";
 import productRoutes from "./routes/product.js";
 import adminRoutes from "./routes/admin.js";
+import orderRoutes from "./routes/order.js";
 import dotenv from "dotenv";
 import connectDB from "./db/connection.js";
 
@@ -26,6 +27,7 @@ app.use(express.json());
 
 app.use("/api/product", productRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/orders", orderRoutes);
 
 
 app.listen(PORT, () => {

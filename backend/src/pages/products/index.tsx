@@ -69,7 +69,7 @@ export default function Products({}: Props) {
       <Header />
       <View className="fixed top-[89%] left-0 right-0 h-[6%] p-2 flex justify-center items-center bg-[#f3f4f6]">
         <Button
-          className="bg-[#fbb713] text-white rounded-md w-full h-full flex justify-center items-center"
+          className="bg-[#fbb713] text-white rounded-md w-full h-full flex justify-center items-center shadow-md"
           hoverClass="bg-[#a3770c]"
           onClick={handleAddProduct}
         >
