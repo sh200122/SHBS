@@ -28,7 +28,7 @@ export default function Dashboard() {
 
       // 获取商品数据
       const productsRes = await Taro.request({
-        url: "http://localhost:5000/api/products",
+        url: "http://localhost:5000/api/product",
         method: "GET",
         header: headers,
       });
@@ -46,11 +46,12 @@ export default function Dashboard() {
 
         // 统计商品数据
         const idleProducts = products.filter((p) => !p.isSold);
-        const soldProducts = products.filter((p) => p.isSold);
 
         // 统计订单数据
         const completedOrders = orders.filter((o) => o.status === "已完成");
         const pendingOrders = orders.filter((o) => o.status === "待发货");
+
+        const soldProducts = completedOrders;
 
         setStats({
           idleCount: idleProducts.length,
@@ -172,7 +173,7 @@ export default function Dashboard() {
         <View className="bg-white rounded-lg p-4 shadow-md mt-4 h-[55%]">
           <View className="flex items-center justify-between mb-3">
             <Text className="text-lg font-bold">推广信息{}</Text>
-            <Text className="text-sm text-blue-500">更多</Text>
+            <Text className="text-lg">📢</Text>
           </View>
           <ScrollView
             className="flex flex-col gap-4 h-[85%] overflow-y-scroll"
@@ -180,7 +181,10 @@ export default function Dashboard() {
             enableFlex
           >
             {advertiseItems.map((item, index) => (
-              <View key={index} className="flex items-center gap-2 bg-gray-100 rounded-lg p-3 mt-4 w-[95%]">
+              <View
+                key={index}
+                className="flex items-center gap-2 bg-gray-100 rounded-lg p-3 mt-4 w-[95%]"
+              >
                 <Text className="text-2xl">{item.icon}</Text>
                 <Text className="text-gray-600">{item.content}</Text>
               </View>
