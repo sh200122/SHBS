@@ -54,4 +54,24 @@ router.delete("/:id", async (req, res) => {
     }
 }); 
 
+// 获取商品统计
+router.get("/stats", async (req, res) => {
+    try {
+      const products = await Product.find().select('name views comments');
+      // 随机选择3个商品
+      const randomProducts = products
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3)
+        .map(product => ({
+          productName: product.name,
+          views: product.views || Math.floor(Math.random() * 1000), // 如果没有views字段则随机生成
+          comments: product.comments || Math.floor(Math.random() * 100) // 如果没有comments字段则随机生成
+        }));
+      
+      res.status(200).json(randomProducts);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
 export default router;

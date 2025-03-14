@@ -58,7 +58,7 @@ export default function edit({}: Props) {
           icon: "success",
         });
         setTimeout(() => {
-            Taro.navigateTo({
+            Taro.reLaunch({
               url: "/pages/products/index",
             });
           }, 1500);
@@ -105,7 +105,7 @@ export default function edit({}: Props) {
   };
 
   const handleCancel = () => {
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: "/pages/products/index",
     });
   };

@@ -151,15 +151,15 @@ export default function Dashboard() {
   return (
     <View className="min-h-screen">
       <Header />
-      <View className="p-4 fixed top-[11%] w-full bg-amber-200 h-[84%]">
+      <View className="p-4 fixed top-[11%] w-full h-[84%] bg-gray-100">
         <View className="mb-6">
           <Text className="text-2xl font-bold">数据概览</Text>
-          <Text className="text-gray-500 mt-2 block">实时统计数据</Text>
+          <Text className="text-gray-500 mt-2 block">📊实时统计数据</Text>
         </View>
 
         <View className="grid grid-cols-2 gap-4">
           {statItems.map((item, index) => (
-            <View key={index} className={`${item.bgColor} p-4 rounded-lg`}>
+            <View key={index} className={`${item.bgColor} p-4 rounded-lg shadow-md`}>
               <View className="flex items-center justify-between">
                 <Text className="text-2xl mb-2">{item.icon}</Text>
                 <Text className={`${item.textColor} text-2xl font-bold`}>

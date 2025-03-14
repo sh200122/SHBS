@@ -47,7 +47,7 @@ export default function add({}: Props) {
           icon: "success",
         });
         setTimeout(() => {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/products/index",
           });
         }, 1000);
@@ -71,7 +71,7 @@ export default function add({}: Props) {
   };
 
   const handleCancel = () => {
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: "/pages/products/index",
     });
   };
