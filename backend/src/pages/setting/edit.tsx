@@ -17,9 +17,13 @@ export default function EditAdmin() {
   });
 
   useEffect(() => {
+    const adminInfo=Taro.getStorageSync('adminInfo')
     Taro.request({
       url: "http://localhost:5000/api/admin",
       method: "GET",
+      header:{
+        'admin-id':adminInfo._id
+      },
       success: (res) => {
         if (res.data.success) {
           setAdmin(res.data.data);
@@ -42,16 +46,20 @@ export default function EditAdmin() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault(); 
+    const adminInfo=Taro.getStorageSync('adminInfo')
     Taro.request({
       url: "http://localhost:5000/api/admin",
       method: "PUT",
       data: admin,
+      header:{
+        'admin-id':adminInfo._id
+      },
       success: () => {
           Taro.showToast({
             title: '更新成功',
             icon: 'success'
           });
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/setting/index",
           });
       },
@@ -109,7 +117,7 @@ export default function EditAdmin() {
         />
         <Button
           className="w-full bg-[#fbb713] text-white h-12 rounded mt-6"
-          hoverClass="bg-[#a3770c]"
+          hoverClass="bg-yellow-500"
           formType="submit"
         >
           保存

@@ -29,10 +29,14 @@ export default function add({}: Props) {
       });
       return;
     }
+    const adminInfo=Taro.getStorageSync('adminInfo')
     try {
       const res = await Taro.request({
         url: "http://localhost:5000/api/product/add",
         method: "POST",
+        header:{
+          'admin-id':adminInfo._id
+        },
         data: formData,
       });
       if (res.statusCode === 201) {
@@ -65,8 +69,12 @@ export default function add({}: Props) {
         sourceType: ["album", "camera"],
       });
       setFormData({ ...formData, image: res.tempFilePaths[0] });
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      Taro.showToast({
+        title: '添加失败',
+        icon: 'error'
+      });
     }
   };
 

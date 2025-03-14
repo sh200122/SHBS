@@ -57,11 +57,19 @@ export default function Setting({}: Props) {
   });
 
   const getAdmin = () => {
+    const adminInfo=Taro.getStorageSync('adminInfo')
     Taro.request({
       url: "http://localhost:5000/api/admin",
       method: "GET",
+      header:{
+        'admin-id':adminInfo._id
+      },
       success: (res) => {
-        setAdmin(res.data.data);
+        setAdmin({
+          name: res.data.data.name,
+          email: res.data.data.email,
+          password: "" 
+        });
       },
       fail: (err) => {
         console.log(err);
@@ -79,6 +87,7 @@ export default function Setting({}: Props) {
     
     // 清除 Token
     Taro.removeStorageSync("token");
+    Taro.removeStorageSync('adminInfo');
 
     // 提示信息
     Taro.showToast({
@@ -111,7 +120,7 @@ export default function Setting({}: Props) {
         
           <Button 
             className="bg-[#fbb713] text-white rounded-md w-full mb-4"
-            hoverClass="bg-blue-600"
+            hoverClass="bg-yellow-500"
             onClick={handleEdit}
           >
             编辑个人信息

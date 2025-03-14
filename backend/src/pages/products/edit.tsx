@@ -19,10 +19,14 @@ export default function edit({}: Props) {
   const [image, setImage] = useState("");
 
   useEffect(() => {
+    const adminInfo=Taro.getStorageSync('adminInfo')
     const id = Taro.getCurrentInstance().router?.params?.id;
     Taro.request({
       url: `http://localhost:5000/api/product/${id}`,
       method: "GET",
+      header:{
+        'admin-id':adminInfo._id
+      },
       success: (res) => {
         const product = res.data;
         setName(product.name);
@@ -42,10 +46,14 @@ export default function edit({}: Props) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const adminInfo=Taro.getStorageSync('adminInfo')
     const id = Taro.getCurrentInstance().router?.params?.id;
     Taro.request({
       url: `http://localhost:5000/api/product/${id}`,
       method: "PUT",
+      header: {
+        'admin-id': adminInfo._id
+      },
       data: {
         name,
         price: Number(price),

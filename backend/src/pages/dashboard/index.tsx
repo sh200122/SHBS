@@ -22,15 +22,18 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       const token = Taro.getStorageSync("token");
+      const adminInfo=Taro.getStorageSync('adminInfo')
       const headers = {
         Authorization: `Bearer ${token}`,
       };
 
       // 获取商品数据
       const productsRes = await Taro.request({
-        url: "http://localhost:5000/api/product",
+        url: "http://localhost:5000/api/product/admin",
         method: "GET",
-        header: headers,
+        header:{
+          'admin-id':adminInfo._id
+        },
       });
 
       // 获取订单数据
