@@ -114,7 +114,7 @@ export default function Setting({}: Props) {
       <View className="fixed top-[11%] h-[84%] bg-gray-100 w-full p-4">
         <View className="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
           <View className="mb-6 flex items-center justify-center gap-2">
-            <Text className="text-lg font-bold mt-1">👤</Text>
+            <Text className="text-lg font-bold mt-1">🗿</Text>
             <Text className="text-lg font-bold mt-1">{admin.name}</Text>
           </View>
         
@@ -137,7 +137,7 @@ export default function Setting({}: Props) {
         </View>
 
         <View className="bg-white rounded-lg shadow p-6 mx-auto mt-4 h-[66%]">
-        <Text className="text-lg font-bold">商品数据统计</Text>
+        <Text className="text-lg font-bold">我的发布</Text>
         <ScrollView className="overflow-y-scroll h-[90%] py-4" scrollY enableFlex>
           <View className="space-y-4 pr-4">
             {statData.map((item, index) => (
