@@ -13,13 +13,11 @@ type Props = {};
 
 export default function Header({}: Props) {
   return (
-    <View className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 fixed top-[4.5%] left-0 right-0">
-      <View className="flex items-center gap-2 h-[7%]">
-        <Image
-          src="https://github.com/sh200122/SHBS/blob/main/front/public/images/logo.png?raw=true"
-          className="w-8 h-8"
-        />
-      </View>
+    <View className="flex items-center justify-between bg-white border-b border-gray-200 fixed top-[3%] left-0 right-0">
+      <Image
+        src="https://github.com/sh200122/SHBS/blob/main/front/public/images/logo.png?raw=true"
+        className="w-20 h-20"
+      />
     </View>
   );
 }

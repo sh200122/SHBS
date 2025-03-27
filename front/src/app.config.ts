@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
-    "pages/dashboard/index",
-    "pages/products/index",
+    "pages/home/index",
+    "pages/classify/index",
     "pages/cart/index",
     "pages/person/index",
     "pages/login/index",
@@ -16,11 +16,11 @@ export default defineAppConfig({
     custom: true,
     list: [
       {
-        pagePath: "pages/dashboard/index",
+        pagePath: "pages/home/index",
         text: "🏠",
       },
       {
-        pagePath: "pages/products/index",
+        pagePath: "pages/classify/index",
         text: "🗂️",
       },
       {

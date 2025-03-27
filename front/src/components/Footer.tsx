@@ -14,42 +14,40 @@ export default function Footer({}: Props) {
     <View className="fixed bottom-0 left-0 right-0 flex justify-between items-center bg-white py-2 border-t border-gray-200 h-[5%]">
       <View
         className="flex-1 flex flex-col items-center"
-        onClick={() => Taro.switchTab({ url: "/pages/dashboard/index" })}
+        onClick={() => Taro.switchTab({ url: "/pages/home/index" })}
       >
         <Text
-          className={`text-2xl ${
-            isActive("dashboard") ? "text-[#fbb713]" : ""
-          }`}
+          className={`text-2xl ${isActive("home") ? "text-[#fbb713]" : ""}`}
         >
           🏠
         </Text>
       </View>
       <View
         className="flex-1 flex flex-col items-center"
-        onClick={() => Taro.switchTab({ url: "/pages/products/index" })}
+        onClick={() => Taro.switchTab({ url: "/pages/classify/index" })}
       >
         <Text
-          className={`text-2xl ${isActive("products") ? "text-[#fbb713]" : ""}`}
+          className={`text-2xl ${isActive("classify") ? "text-[#fbb713]" : ""}`}
         >
           🗂️
         </Text>
       </View>
       <View
         className="flex-1 flex flex-col items-center"
-        onClick={() => Taro.switchTab({ url: "/pages/order/index" })}
+        onClick={() => Taro.switchTab({ url: "/pages/cart/index" })}
       >
         <Text
-          className={`text-2xl ${isActive("order") ? "text-[#fbb713]" : ""}`}
+          className={`text-2xl ${isActive("cart") ? "text-[#fbb713]" : ""}`}
         >
           🛒
         </Text>
       </View>
       <View
         className="flex-1 flex flex-col items-center"
-        onClick={() => Taro.switchTab({ url: "/pages/setting/index" })}
+        onClick={() => Taro.switchTab({ url: "/pages/person/index" })}
       >
         <Text
-          className={`text-2xl ${isActive("setting") ? "text-[#fbb713]" : ""}`}
+          className={`text-2xl ${isActive("person") ? "text-[#fbb713]" : ""}`}
         >
           👤
         </Text>
