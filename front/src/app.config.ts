@@ -2,8 +2,8 @@ export default defineAppConfig({
   pages: [
     "pages/dashboard/index",
     "pages/products/index",
-    "pages/order/index",
-    "pages/setting/index",
+    "pages/cart/index",
+    "pages/person/index",
     "pages/login/index",
   ],
   window: {
@@ -17,19 +17,19 @@ export default defineAppConfig({
     list: [
       {
         pagePath: "pages/dashboard/index",
-        text: "首页",
+        text: "🏠",
       },
       {
         pagePath: "pages/products/index",
-        text: "商品管理",
+        text: "🗂️",
       },
       {
-        pagePath: "pages/order/index",
-        text: "订单管理",
+        pagePath: "pages/cart/index",
+        text: "🛒",
       },
       {
-        pagePath: "pages/setting/index",
-        text: "我的",
+        pagePath: "pages/person/index",
+        text: "👤",
       },
     ],
   },

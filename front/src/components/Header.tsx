@@ -19,7 +19,6 @@ export default function Header({}: Props) {
           src={require("../../public/images/shop.png")}
           className="w-8 h-8"
         />
-        <Text className="text-lg font-medium text-gray-800">商店管理员</Text>
       </View>
     </View>
   );
