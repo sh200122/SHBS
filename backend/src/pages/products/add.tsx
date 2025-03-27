@@ -23,19 +23,19 @@ export default function add({}: Props) {
     e.preventDefault();
     if (!formData.image || !formData.name || !formData.price) {
       Taro.showToast({
-        title: '请填写必选项',
-        icon: 'error',
-        duration: 2000
+        title: "请填写必选项",
+        icon: "error",
+        duration: 2000,
       });
       return;
     }
-    const adminInfo=Taro.getStorageSync('adminInfo')
+    const adminInfo = Taro.getStorageSync("adminInfo");
     try {
       const res = await Taro.request({
         url: "http://localhost:5000/api/product/add",
         method: "POST",
-        header:{
-          'admin-id':adminInfo._id
+        header: {
+          "admin-id": adminInfo._id,
         },
         data: formData,
       });
@@ -61,6 +61,24 @@ export default function add({}: Props) {
     }
   };
 
+  const imageToBase64 = (tempFilePath: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      Taro.getFileSystemManager().readFile({
+        filePath: tempFilePath,
+        encoding: "base64",
+        success: (res) => {
+          const base64 = `data:image/jpeg;base64,${res.data}`;
+          resolve(base64);
+        },
+        fail: (err) => {
+          console.error("转换失败:", err);
+          reject(err);
+        },
+      });
+    });
+  };
+
+  // 处理选择图片
   const handleChooseImage = async () => {
     try {
       const res = await Taro.chooseImage({
@@ -68,12 +86,22 @@ export default function add({}: Props) {
         sizeType: ["compressed"],
         sourceType: ["album", "camera"],
       });
-      setFormData({ ...formData, image: res.tempFilePaths[0] });
-    } catch (error: any) {
-      console.log(error);
+
+      // 压缩图片
+      const compressRes = await Taro.compressImage({
+        src: res.tempFilePaths[0],
+        quality: 80,
+      });
+
+      // 转换为 base64
+      const base64Image = await imageToBase64(compressRes.tempFilePath);
+
+      setFormData({ ...formData, image: base64Image });
+    } catch (error) {
+      console.error("选择图片失败:", error);
       Taro.showToast({
-        title: '添加失败',
-        icon: 'error'
+        title: "添加图片失败",
+        icon: "error",
       });
     }
   };

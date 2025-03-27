@@ -72,7 +72,7 @@ function App(_ref) {
 
 
 
-var config = {"pages":["pages/dashboard/index","pages/products/index","pages/order/index","pages/setting/index","pages/login/index","pages/products/add","pages/products/edit","pages/setting/edit"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationStyle":"custom","navigationBarTextStyle":"black"},"tabBar":{"custom":true,"list":[{"pagePath":"pages/dashboard/index","text":"首页"},{"pagePath":"pages/products/index","text":"商品管理"},{"pagePath":"pages/order/index","text":"订单管理"},{"pagePath":"pages/setting/index","text":"我的"}]}};
+var config = {"pages":["pages/home/index","pages/classify/index","pages/cart/index","pages/person/index","pages/login/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationStyle":"custom","navigationBarTextStyle":"black"},"tabBar":{"custom":true,"list":[{"pagePath":"pages/home/index","text":"🏠"},{"pagePath":"pages/classify/index","text":"🗂️"},{"pagePath":"pages/cart/index","text":"🛒"},{"pagePath":"pages/person/index","text":"👤"}]}};
 _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__.window.__taroAppConfig = config
 var inst = App((0,_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_MODULE_2__.createReactApp)(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_app_app_ts__WEBPACK_IMPORTED_MODULE_4__["default"], react__WEBPACK_IMPORTED_MODULE_5__, (react_dom__WEBPACK_IMPORTED_MODULE_6___default()), config))
 

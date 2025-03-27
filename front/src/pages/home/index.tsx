@@ -64,11 +64,15 @@ export default function Dashboard() {
           method: "GET",
         });
 
-        const allProducts = response.data;
-        // 随机打乱并分配到不同区块
-        const shuffled = shuffleArray(allProducts);
+        // 只过滤 status 为 active 的商品
+        const activeProducts = response.data.filter(
+          (product: Product) => product.status === "active"
+        );
 
-        setProducts(allProducts);
+        // 随机打乱并分配到不同区块
+        const shuffled = shuffleArray(activeProducts);
+
+        setProducts(activeProducts);
         setLimitTimeProducts(shuffled.slice(0, 4));
         setHotSaleProducts(shuffled.slice(4, 8));
         setRecommendProducts(shuffled.slice(8, 12));
