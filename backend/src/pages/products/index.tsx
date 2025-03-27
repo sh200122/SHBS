@@ -11,22 +11,23 @@ interface Product {
   price: number;
   description: string;
   image: string;
+  status: "active" | "inactive";
 }
 
 export default function Products({}: Props) {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const getAdminInfo=()=>{
-    return Taro.getStorageSync('adminInfo') || {}
-  }
+  const getAdminInfo = () => {
+    return Taro.getStorageSync("adminInfo") || {};
+  };
 
   useEffect(() => {
-    const adminInfo=getAdminInfo()
+    const adminInfo = getAdminInfo();
     Taro.request({
       url: "http://localhost:5000/api/product/admin",
       method: "GET",
-      header:{
-        'admin-id':adminInfo._id
+      header: {
+        "admin-id": adminInfo._id,
       },
       success: (res) => {
         setProducts(res.data);
@@ -38,22 +39,26 @@ export default function Products({}: Props) {
   }, []);
 
   const handleDeleteProduct = (product: Product) => {
-    const adminInfo =getAdminInfo()
+    const adminInfo = getAdminInfo();
     Taro.showModal({
-      title: "确认删除",
-      content: `确定要删除 ${product.name} 吗？`,
+      title: "确认下架",
+      content: `确定要下架 ${product.name} 吗？`,
       success: function (res) {
         if (res.confirm) {
           Taro.request({
             url: `http://localhost:5000/api/product/${product._id}`,
             method: "DELETE",
-            header:{
-              'admin-id':adminInfo._id
+            header: {
+              "admin-id": adminInfo._id,
             },
             success: () => {
-              setProducts(products.filter((p) => p._id !== product._id));
+              setProducts(
+                products.map((p) =>
+                  p._id === product._id ? { ...p, status: "inactive" } : p
+                )
+              );
               Taro.showToast({
-                title: "删除成功",
+                title: "下架成功",
                 icon: "success",
                 duration: 2000,
               });
@@ -61,7 +66,46 @@ export default function Products({}: Props) {
             fail: (err) => {
               console.log(err);
               Taro.showToast({
-                title: "删除失败",
+                title: "下架失败",
+                icon: "error",
+                duration: 2000,
+              });
+            },
+          });
+        }
+      },
+    });
+  };
+
+  const handleActivateProduct = (product: Product) => {
+    const adminInfo = getAdminInfo();
+    Taro.showModal({
+      title: "确认上架",
+      content: `确定要上架 ${product.name} 吗？`,
+      success: function (res) {
+        if (res.confirm) {
+          Taro.request({
+            url: `http://localhost:5000/api/product/${product._id}/activate`,
+            method: "PUT",
+            header: {
+              "admin-id": adminInfo._id,
+            },
+            success: () => {
+              setProducts(
+                products.map((p) =>
+                  p._id === product._id ? { ...p, status: "active" } : p
+                )
+              );
+              Taro.showToast({
+                title: "上架成功",
+                icon: "success",
+                duration: 2000,
+              });
+            },
+            fail: (err) => {
+              console.log(err);
+              Taro.showToast({
+                title: "上架失败",
                 icon: "error",
                 duration: 2000,
               });
@@ -125,13 +169,23 @@ export default function Products({}: Props) {
                     >
                       编辑
                     </Button>
-                    <Button
-                      className="bg-red-500 text-white"
-                      hoverClass="bg-red-600"
-                      onClick={() => handleDeleteProduct(product)}
-                    >
-                      删除
-                    </Button>
+                    {product.status === "active" ? (
+                      <Button
+                        className="bg-red-500 text-white"
+                        hoverClass="bg-red-600"
+                        onClick={() => handleDeleteProduct(product)}
+                      >
+                        下架
+                      </Button>
+                    ) : (
+                      <Button
+                        className="bg-gray-500 text-white"
+                        hoverClass="bg-gray-600"
+                        onClick={() => handleActivateProduct(product)}
+                      >
+                        上架
+                      </Button>
+                    )}
                   </View>
                 </View>
               </View>
