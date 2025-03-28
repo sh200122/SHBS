@@ -37,11 +37,7 @@ export default function Login({}: Props) {
 
   const handleCancel = () => {
     // 返回上一页，如果没有上一页则进入首页
-    Taro.navigateBack({
-      fail: () => {
-        Taro.reLaunch({ url: "/pages/home/index" });
-      },
-    });
+    Taro.reLaunch({ url: "/pages/home/index" });
   };
 
   return (

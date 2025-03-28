@@ -32,6 +32,32 @@ router.post("/add", verifyAdmin, async (req, res) => {
   }
 });
 
+// 搜索商品（公开接口）
+router.get("/search", async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+      return res.status(400).json({ message: "请提供搜索关键词" });
+    }
+
+    // 创建搜索条件
+    const searchConditions = {
+      status: "active", // 只搜索上架的商品
+      $or: [
+        { name: { $regex: keyword, $options: "i" } }, // 搜索商品名称
+        { description: { $regex: keyword, $options: "i" } }, // 搜索商品描述
+        { category: { $regex: keyword, $options: "i" } }, // 搜索商品分类
+      ],
+    };
+
+    const products = await Product.find(searchConditions);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // 获取所有商品（公开接口）
 router.get("/", async (req, res) => {
   try {

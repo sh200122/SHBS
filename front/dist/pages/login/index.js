@@ -58,12 +58,8 @@ function Login(_ref) {
   };
   const handleCancel = () => {
     // 返回上一页，如果没有上一页则进入首页
-    _tarojs_taro__WEBPACK_IMPORTED_MODULE_1___default().navigateBack({
-      fail: () => {
-        _tarojs_taro__WEBPACK_IMPORTED_MODULE_1___default().reLaunch({
-          url: "/pages/home/index"
-        });
-      }
+    _tarojs_taro__WEBPACK_IMPORTED_MODULE_1___default().reLaunch({
+      url: "/pages/home/index"
     });
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_4__.View, {
