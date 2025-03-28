@@ -45,6 +45,24 @@ export default function Dashboard() {
   const [hotSaleProducts, setHotSaleProducts] = useState<Product[]>([]);
   const [recommendProducts, setRecommendProducts] = useState<Product[]>([]);
 
+  // 添加登录检查
+  useEffect(() => {
+    const checkLogin = () => {
+      try {
+        const userInfo = Taro.getStorageSync("user");
+        if (!userInfo) {
+          // 未登录，跳转到登录页
+          Taro.redirectTo({ url: "/pages/login/index" });
+        }
+      } catch (error) {
+        console.error("检查登录状态失败:", error);
+        Taro.redirectTo({ url: "/pages/login/index" });
+      }
+    };
+
+    checkLogin();
+  }, []);
+
   // 随机打乱数组的函数
   const shuffleArray = (array: Product[]) => {
     const newArray = [...array];

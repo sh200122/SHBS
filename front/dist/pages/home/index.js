@@ -43,6 +43,27 @@ function Dashboard() {
   const [hotSaleProducts, setHotSaleProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [recommendProducts, setRecommendProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
 
+  // 添加登录检查
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    const checkLogin = () => {
+      try {
+        const userInfo = _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().getStorageSync("user");
+        if (!userInfo) {
+          // 未登录，跳转到登录页
+          _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().redirectTo({
+            url: "/pages/login/index"
+          });
+        }
+      } catch (error) {
+        console.error("检查登录状态失败:", error);
+        _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().redirectTo({
+          url: "/pages/login/index"
+        });
+      }
+    };
+    checkLogin();
+  }, []);
+
   // 随机打乱数组的函数
   const shuffleArray = array => {
     const newArray = [...array];

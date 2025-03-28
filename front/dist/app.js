@@ -1,4 +1,5 @@
 "use strict";
+require("./prebundle/vendors-node_modules_taro_weapp_prebundle_taro-ui_js.js");
 require("./prebundle/vendors-node_modules_taro_weapp_prebundle_react-dom_js.js");
 require("./prebundle/vendors-node_modules_taro_weapp_prebundle_chunk-R3CD5KEQ_js.js");
 require("./prebundle/vendors-node_modules_taro_weapp_prebundle_chunk-XDFXK7K5_js.js");
@@ -25,6 +26,8 @@ require("./runtime");
 
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var taro_ui_dist_style_index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! taro-ui/dist/style/index.scss */ "./node_modules/taro-ui/dist/style/index.scss");
+
 
 
 function App(_ref) {
@@ -32,7 +35,7 @@ function App(_ref) {
     children
   } = _ref;
   (0,_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__.useLaunch)(() => {
-    console.log('App launched.');
+    console.log("App launched.");
   });
 
   // children 是将要会渲染的页面
@@ -83,6 +86,17 @@ var inst = App((0,_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_
   unitPrecision: undefined,
   targetUnit: undefined
 })
+
+
+/***/ }),
+
+/***/ "./node_modules/taro-ui/dist/style/index.scss":
+/*!****************************************************!*\
+  !*** ./node_modules/taro-ui/dist/style/index.scss ***!
+  \****************************************************/
+/***/ (function() {
+
+// extracted by mini-css-extract-plugin
 
 
 /***/ })
