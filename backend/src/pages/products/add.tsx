@@ -8,6 +8,7 @@ import {
   Form,
   View,
   Image,
+  Picker,
 } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 type Props = {};
@@ -18,10 +19,34 @@ export default function add({}: Props) {
     name: "",
     price: "",
     description: "",
+    category: "",
   });
+
+  const categoryOptions = [
+    "手机",
+    "电脑",
+    "服饰",
+    "鞋子",
+    "手表",
+    "相机",
+    "家电",
+    "其他",
+  ];
+
+  const handleCategoryChange = (e) => {
+    const selectedIndex = e.detail.value;
+    setFormData({ ...formData, category: categoryOptions[selectedIndex] });
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (!formData.image || !formData.name || !formData.price) {
+    if (
+      !formData.image ||
+      !formData.name ||
+      !formData.price ||
+      !formData.category ||
+      !formData.description
+    ) {
       Taro.showToast({
         title: "请填写必选项",
         icon: "error",
@@ -45,6 +70,7 @@ export default function add({}: Props) {
           name: "",
           price: "",
           description: "",
+          category: "",
         });
         Taro.showToast({
           title: "添加成功",
@@ -148,6 +174,29 @@ export default function add({}: Props) {
           className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
           placeholder="请输入商品"
         />
+        <Label className="block text-gray-700 text-sm font-bold mt-1">
+          类型:
+        </Label>
+        <View className="relative">
+          <Picker
+            mode="selector"
+            range={categoryOptions}
+            onChange={handleCategoryChange}
+            className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
+          >
+            <View className="items-center">
+              <Text
+                className={formData.category ? "text-black" : "text-gray-500"}
+              >
+                {formData.category || "请选择商品类型"}
+              </Text>
+            </View>
+          </Picker>
+          <View className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <Text className="text-gray-700">▼</Text>
+          </View>
+        </View>
+
         <Label className="block text-gray-700 text-sm font-bold mt-1">
           价格:
         </Label>

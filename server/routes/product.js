@@ -16,13 +16,14 @@ const verifyAdmin = async (req, res, next) => {
 // 添加商品（需要管理员权限）
 router.post("/add", verifyAdmin, async (req, res) => {
   try {
-    const { name, price, description, image } = req.body;
+    const { name, price, description, image, category } = req.body;
     const product = new Product({
       adminId: req.adminId,
       name,
       price,
       description,
       image,
+      category,
     });
     await product.save();
     res.status(201).json(product);
@@ -83,10 +84,10 @@ router.put("/:id", verifyAdmin, async (req, res) => {
       return res.status(403).json({ message: "没有权限修改此商品" });
     }
 
-    const { name, price, description, image } = req.body;
+    const { name, price, description, image, category } = req.body;
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, price, description, image },
+      { name, price, description, image, category },
       { new: true }
     );
     res.status(200).json(updatedProduct);
