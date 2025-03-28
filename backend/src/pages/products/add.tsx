@@ -8,6 +8,7 @@ import {
   Form,
   View,
   Image,
+  Picker,
 } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 type Props = {};
@@ -18,24 +19,48 @@ export default function add({}: Props) {
     name: "",
     price: "",
     description: "",
+    category: "",
   });
+
+  const categoryOptions = [
+    "手机",
+    "电脑",
+    "服饰",
+    "鞋子",
+    "手表",
+    "相机",
+    "家电",
+    "其他",
+  ];
+
+  const handleCategoryChange = (e) => {
+    const selectedIndex = e.detail.value;
+    setFormData({ ...formData, category: categoryOptions[selectedIndex] });
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (!formData.image || !formData.name || !formData.price) {
+    if (
+      !formData.image ||
+      !formData.name ||
+      !formData.price ||
+      !formData.category ||
+      !formData.description
+    ) {
       Taro.showToast({
-        title: '请填写必选项',
-        icon: 'error',
-        duration: 2000
+        title: "请填写必选项",
+        icon: "error",
+        duration: 2000,
       });
       return;
     }
-    const adminInfo=Taro.getStorageSync('adminInfo')
+    const adminInfo = Taro.getStorageSync("adminInfo");
     try {
       const res = await Taro.request({
         url: "http://localhost:5000/api/product/add",
         method: "POST",
-        header:{
-          'admin-id':adminInfo._id
+        header: {
+          "admin-id": adminInfo._id,
         },
         data: formData,
       });
@@ -45,6 +70,7 @@ export default function add({}: Props) {
           name: "",
           price: "",
           description: "",
+          category: "",
         });
         Taro.showToast({
           title: "添加成功",
@@ -61,6 +87,24 @@ export default function add({}: Props) {
     }
   };
 
+  const imageToBase64 = (tempFilePath: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      Taro.getFileSystemManager().readFile({
+        filePath: tempFilePath,
+        encoding: "base64",
+        success: (res) => {
+          const base64 = `data:image/jpeg;base64,${res.data}`;
+          resolve(base64);
+        },
+        fail: (err) => {
+          console.error("转换失败:", err);
+          reject(err);
+        },
+      });
+    });
+  };
+
+  // 处理选择图片
   const handleChooseImage = async () => {
     try {
       const res = await Taro.chooseImage({
@@ -68,12 +112,22 @@ export default function add({}: Props) {
         sizeType: ["compressed"],
         sourceType: ["album", "camera"],
       });
-      setFormData({ ...formData, image: res.tempFilePaths[0] });
-    } catch (error: any) {
-      console.log(error);
+
+      // 压缩图片
+      const compressRes = await Taro.compressImage({
+        src: res.tempFilePaths[0],
+        quality: 80,
+      });
+
+      // 转换为 base64
+      const base64Image = await imageToBase64(compressRes.tempFilePath);
+
+      setFormData({ ...formData, image: base64Image });
+    } catch (error) {
+      console.error("选择图片失败:", error);
       Taro.showToast({
-        title: '添加失败',
-        icon: 'error'
+        title: "添加图片失败",
+        icon: "error",
       });
     }
   };
@@ -120,6 +174,29 @@ export default function add({}: Props) {
           className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
           placeholder="请输入商品"
         />
+        <Label className="block text-gray-700 text-sm font-bold mt-1">
+          类型:
+        </Label>
+        <View className="relative">
+          <Picker
+            mode="selector"
+            range={categoryOptions}
+            onChange={handleCategoryChange}
+            className="w-full h-[50px] border-solid border-[1px] p-2 border-gray-300 rounded"
+          >
+            <View className="items-center">
+              <Text
+                className={formData.category ? "text-black" : "text-gray-500"}
+              >
+                {formData.category || "请选择商品类型"}
+              </Text>
+            </View>
+          </Picker>
+          <View className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <Text className="text-gray-700">▼</Text>
+          </View>
+        </View>
+
         <Label className="block text-gray-700 text-sm font-bold mt-1">
           价格:
         </Label>
