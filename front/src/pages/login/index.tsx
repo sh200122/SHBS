@@ -1,111 +1,70 @@
-import { View, Text, Form, Input, Button, Label } from "@tarojs/components";
+import React from "react";
 import Taro from "@tarojs/taro";
-import { useState } from "react";
+import { View, Button, Text } from "@tarojs/components";
+import { AtIcon } from "taro-ui";
 
-export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+type Props = {};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+export default function Login({}: Props) {
+  const handleWxLogin = async () => {
     try {
-      console.log("提交登录请求:", formData);
-  
-      const response = await Taro.request({
-        url: "http://localhost:5000/api/admin/login",
-        method: "POST",
-        data: formData,
-        header: {
-          "content-type": "application/json",
+      // 调用微信小程序登录接口获取code
+      Taro.login({
+        success: async (res) => {
+          if (res.code) {
+            // 发送code到后端
+            const response = await Taro.request({
+              url: "http://localhost:5000/api/user/wx-login", // 使用完整的URL
+              method: "POST",
+              data: {
+                code: res.code,
+              },
+            });
+
+            if (response.data.success) {
+              // 登录成功，可以存储用户信息到本地
+              Taro.setStorageSync("user", JSON.stringify(response.data.user));
+              // 跳转到首页或其他页面
+              Taro.reLaunch({ url: "/pages/home/index" });
+            }
+          }
         },
       });
-  
-      console.log("登录响应:", response);
-  
-      if (response.statusCode === 200 && response.data.success) {
-        const token = response.data.token;
-        
-        // ✅ 先存 Token
-        await Taro.setStorage({ key: "token", data: token });
-  
-        // ✅ 确保 Token 已存储
-        Taro.getStorage({
-          key: "token",
-          success: (res) => {
-            console.log("存储的 Token:", res.data);
-          },
-          fail: () => {
-            console.warn("存储失败");
-          },
-        });
-
-        Taro.setStorageSync('adminInfo', {
-          _id: response.data.admin._id,
-          name: response.data.admin.name,
-          email: response.data.admin.email
-        });
-  
-        console.log("登录成功，准备跳转...");
-  
-        // ✅ 改为 reLaunch，防止 Token 丢失
-        await Taro.reLaunch({ url: "/pages/dashboard/index" });
-  
-        console.log("跳转成功");
-      } else {
-        console.error("登录失败:", response.data.message);
-        Taro.showToast({ title: response.data.message || "登录失败", icon: "error" });
-      }
     } catch (error) {
-      console.error("登录错误:", error);
-      Taro.showToast({ title: "登录请求失败", icon: "error" });
+      console.error("登录失败:", error);
     }
   };
 
+  const handleCancel = () => {
+    // 返回上一页，如果没有上一页则进入首页
+    Taro.navigateBack({
+      fail: () => {
+        Taro.reLaunch({ url: "/pages/home/index" });
+      },
+    });
+  };
+
   return (
-    <View className="flex flex-col items-center justify-center min-h-screen p-4 bg-[#e8e8e8]">
-      <Text className="text-2xl font-bold mb-10">登录管理员系统</Text>
-      <Form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {/* 邮箱输入框 */}
-        <View className="flex flex-col gap-2">
-          <Label className="text-sm font-medium text-gray-700">邮箱</Label>
-          <Input
-            type="text"
-            name="email"
-            placeholder="请输入邮箱"
-            className="p-3"
-            value={formData.email}
-            onInput={(e) =>
-              setFormData({ ...formData, email: e.detail.value })
-            }
-          />
-        </View>
-
-        {/* 密码输入框 */}
-        <View className="flex flex-col gap-2">
-          <Label className="text-sm font-medium text-gray-700">密码</Label>
-          <Input
-            type="password" // ✅ 确保密码不明文显示
-            name="password"
-            placeholder="请输入密码"
-            className="p-3"
-            value={formData.password}
-            onInput={(e) =>
-              setFormData({ ...formData, password: e.detail.value })
-            }
-          />
-        </View>
-
-        {/* 提交按钮 */}
-        <Button
-          formType="submit"
-          className="bg-green-500 text-white rounded-md mt-10"
-          hoverClass="bg-green-600"
-        >
-          登录
-        </Button>
-      </Form>
+    <View className="h-screen w-screen flex flex-col justify-center items-center p-4 space-y-4">
+      <Button
+        className="bg-green-500 text-white rounded-md w-full flex items-center justify-center h-12"
+        onClick={handleWxLogin}
+      >
+        <AtIcon
+          prefixClass="at-icon"
+          value="weixin"
+          size="24"
+          color="#ffffff"
+          className="mr-2"
+        />
+        <Text>微信登录</Text>
+      </Button>
+      <Button
+        className="bg-gray-500 text-white rounded-md w-full h-12 mt-4"
+        onClick={handleCancel}
+      >
+        取消
+      </Button>
     </View>
   );
 }
