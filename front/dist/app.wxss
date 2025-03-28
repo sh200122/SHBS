@@ -158,6 +158,9 @@ view,text,::before,::after {
 .bottom-3 {
     bottom: 0.75rem
 }
+.right-3 {
+    right: 0.75rem
+}
 .mx-auto {
     margin-left: auto;
     margin-right: auto
@@ -185,6 +188,27 @@ view,text,::before,::after {
 }
 .mt-4 {
     margin-top: 1rem
+}
+.mt-6 {
+    margin-top: 1.5rem
+}
+.mb-1 {
+    margin-bottom: 0.25rem
+}
+.mr-2 {
+    margin-right: 0.5rem
+}
+.mr-20 {
+    margin-right: 5rem
+}
+.mr-32 {
+    margin-right: 8rem
+}
+.mr-28 {
+    margin-right: 7rem
+}
+.block {
+    display: block
 }
 .flex {
     display: flex
@@ -234,6 +258,27 @@ view,text,::before,::after {
 .h-screen {
     height: 100vh
 }
+.h-12 {
+    height: 3rem
+}
+.h-_50px_ {
+    height: 50rpx
+}
+.h-auto {
+    height: auto
+}
+.h-6 {
+    height: 1.5rem
+}
+.h-_200px_ {
+    height: 200rpx
+}
+.h-_40px_ {
+    height: 40rpx
+}
+.h-_30px_ {
+    height: 30rpx
+}
 .max-h-_300px_ {
     max-height: 300rpx
 }
@@ -252,11 +297,32 @@ view,text,::before,::after {
 .w-screen {
     width: 100vw
 }
+.w-1 {
+    width: 0.25rem
+}
+.w-80 {
+    width: 20rem
+}
+.w-_50p_ {
+    width: 50%
+}
+.w-_60p_ {
+    width: 60%
+}
+.w-_52p_ {
+    width: 52%
+}
+.w-_55p_ {
+    width: 55%
+}
 .max-w-_300px_ {
     max-width: 300rpx
 }
 .max-w-md {
     max-width: 28rem
+}
+.max-w-lg {
+    max-width: 32rem
 }
 .flex-1 {
     flex: 1 1 0%
@@ -285,8 +351,14 @@ view,text,::before,::after {
 .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
 }
+.cursor-pointer {
+    cursor: pointer
+}
 .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr))
+}
+.grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr))
 }
 .flex-col {
     flex-direction: column
@@ -337,11 +409,17 @@ view,text,::before,::after {
 .rounded-bl-lg {
     border-bottom-left-radius: 0.5rem
 }
+.border-_1px_ {
+    border-width: 1rpx
+}
 .border-b {
     border-bottom-width: 1rpx
 }
 .border-t {
     border-top-width: 1rpx
+}
+.border-solid {
+    border-style: solid
 }
 .border-gray-100 {
     --tw-border-opacity: 1;
@@ -350,6 +428,10 @@ view,text,::before,::after {
 .border-gray-200 {
     --tw-border-opacity: 1;
     border-color: rgb(229 231 235 / var(--tw-border-opacity, 1))
+}
+.border-gray-300 {
+    --tw-border-opacity: 1;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity, 1))
 }
 .bg-_ha3770c_ {
     --tw-bg-opacity: 1;
@@ -403,6 +485,14 @@ view,text,::before,::after {
     --tw-bg-opacity: 1;
     background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1))
 }
+.bg-gray-50 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1))
+}
+.bg-yellow-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 249 195 / var(--tw-bg-opacity, 1))
+}
 .object-contain {
     object-fit: contain
 }
@@ -440,6 +530,10 @@ view,text,::before,::after {
 .py-1 {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem
+}
+.py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem
 }
 .pb-2 {
     padding-bottom: 0.5rem
@@ -516,6 +610,14 @@ view,text,::before,::after {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity, 1))
 }
+.text-black {
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0 / var(--tw-text-opacity, 1))
+}
+.text-yellow-600 {
+    --tw-text-opacity: 1;
+    color: rgb(202 138 4 / var(--tw-text-opacity, 1))
+}
 .opacity-0 {
     opacity: 0
 }
@@ -530,6 +632,11 @@ view,text,::before,::after {
 .shadow-md {
     --tw-shadow: 0 4rpx 6rpx -1rpx rgb(0 0 0 / 0.1), 0 2rpx 4rpx -2rpx rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4rpx 6rpx -1rpx var(--tw-shadow-color), 0 2rpx 4rpx -2rpx var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+}
+.shadow-lg {
+    --tw-shadow: 0 10rpx 15rpx -3rpx rgb(0 0 0 / 0.1), 0 4rpx 6rpx -4rpx rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10rpx 15rpx -3rpx var(--tw-shadow-color), 0 4rpx 6rpx -4rpx var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
 }
 .filter {
