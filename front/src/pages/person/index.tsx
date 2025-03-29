@@ -10,21 +10,13 @@ import { View, Text, Button, ScrollView } from "@tarojs/components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Taro from "@tarojs/taro";
-<<<<<<< HEAD
-=======
 import { logout } from "@/utils/auth";
->>>>>>> origin/sh
 
 type Props = {};
 
 export default function Setting({}: Props) {
   const handleLogout = () => {
-<<<<<<< HEAD
-    Taro.removeStorageSync("user");
-    // 跳转回登录页
-=======
     logout(); // 使用新的 logout 函数
->>>>>>> origin/sh
     setTimeout(() => {
       Taro.reLaunch({
         url: "/pages/login/index",
