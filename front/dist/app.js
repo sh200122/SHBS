@@ -12,10 +12,45 @@ require("./prebundle/remoteEntry.js");
 require("./prebundle/node_modules_taro_weapp_prebundle_react_jsx-runtime_js.js");
 require("./prebundle/node_modules_taro_weapp_prebundle_react_js.js");
 
+<<<<<<< HEAD
+=======
+require("./common");
+require("./taro");
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([["app"],{
 
+<<<<<<< HEAD
+=======
+/***/ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./src/app.ts":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./src/app.ts ***!
+  \***********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var taro_ui_dist_style_index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! taro-ui/dist/style/index.scss */ "./node_modules/taro-ui/dist/style/index.scss");
+
+
+
+function App(_ref) {
+  let {
+    children
+  } = _ref;
+  (0,_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__.useLaunch)(() => {
+    console.log("App launched.");
+  });
+
+  // children 是将要会渲染的页面
+  return children;
+}
+/* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /***/ "./src/app.ts":
 /*!********************!*\
   !*** ./src/app.ts ***!
@@ -30,7 +65,11 @@ require("./runtime");
 /* harmony import */ var _tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__);
+<<<<<<< HEAD
 Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./app.ts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+=======
+/* harmony import */ var _node_modules_tarojs_taro_loader_lib_entry_cache_js_name_app_app_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !!../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./app.ts */ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./src/app.ts");
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "webpack/container/remote/react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dom */ "webpack/container/remote/react-dom");
@@ -48,7 +87,11 @@ Object(function webpackMissingModule() { var e = new Error("Cannot find module '
 
 var config = {"pages":["pages/home/index","pages/classify/index","pages/cart/index","pages/person/index","pages/login/index","pages/search/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationStyle":"custom","navigationBarTextStyle":"black"},"tabBar":{"custom":true,"list":[{"pagePath":"pages/home/index","text":"🏠"},{"pagePath":"pages/classify/index","text":"🗂️"},{"pagePath":"pages/cart/index","text":"🛒"},{"pagePath":"pages/person/index","text":"👤"}]}};
 _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__.window.__taroAppConfig = config
+<<<<<<< HEAD
 var inst = App((0,_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_MODULE_2__.createReactApp)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=app!./app.ts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), react__WEBPACK_IMPORTED_MODULE_5__, (react_dom__WEBPACK_IMPORTED_MODULE_6___default()), config))
+=======
+var inst = App((0,_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_MODULE_2__.createReactApp)(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_app_app_ts__WEBPACK_IMPORTED_MODULE_4__["default"], react__WEBPACK_IMPORTED_MODULE_5__, (react_dom__WEBPACK_IMPORTED_MODULE_6___default()), config))
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 
 ;(0,_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__.initPxTransform)({
   designWidth: 750,
@@ -59,6 +102,20 @@ var inst = App((0,_tarojs_plugin_framework_react_dist_runtime__WEBPACK_IMPORTED_
 })
 
 
+<<<<<<< HEAD
+=======
+/***/ }),
+
+/***/ "./node_modules/taro-ui/dist/style/index.scss":
+/*!****************************************************!*\
+  !*** ./node_modules/taro-ui/dist/style/index.scss ***!
+  \****************************************************/
+/***/ (function() {
+
+// extracted by mini-css-extract-plugin
+
+
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /***/ })
 
 },

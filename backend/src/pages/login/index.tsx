@@ -40,6 +40,12 @@ export default function Login() {
             console.warn("存储失败");
           },
         });
+
+        Taro.setStorageSync('adminInfo', {
+          _id: response.data.admin._id,
+          name: response.data.admin.name,
+          email: response.data.admin.email
+        });
   
         console.log("登录成功，准备跳转...");
   

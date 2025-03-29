@@ -64,6 +64,21 @@
 /******/ 		};
 /******/ 	}();
 /******/ 	
+<<<<<<< HEAD
+=======
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -183,8 +198,69 @@
 /******/ 	
 /******/ 	/* webpack/runtime/remotes loading */
 /******/ 	!function() {
+<<<<<<< HEAD
 /******/ 		var chunkMapping = {};
 /******/ 		var idToExternalAndNameMapping = {};
+=======
+/******/ 		var chunkMapping = {
+/******/ 			"app": [
+/******/ 				"webpack/container/remote/@tarojs/plugin-platform-weapp/dist/runtime",
+/******/ 				"webpack/container/remote/@tarojs/plugin-framework-react/dist/runtime",
+/******/ 				"webpack/container/remote/react-dom"
+/******/ 			],
+/******/ 			"pages/login/index": [
+/******/ 				"webpack/container/remote/taro-ui"
+/******/ 			],
+/******/ 			"common": [
+/******/ 				"webpack/container/remote/@tarojs/runtime",
+/******/ 				"webpack/container/remote/@tarojs/taro",
+/******/ 				"webpack/container/remote/react",
+/******/ 				"webpack/container/remote/react/jsx-runtime"
+/******/ 			]
+/******/ 		};
+/******/ 		var idToExternalAndNameMapping = {
+/******/ 			"webpack/container/remote/@tarojs/plugin-platform-weapp/dist/runtime": [
+/******/ 				"default",
+/******/ 				"./@tarojs/plugin-platform-weapp/dist/runtime",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/@tarojs/plugin-framework-react/dist/runtime": [
+/******/ 				"default",
+/******/ 				"./@tarojs/plugin-framework-react/dist/runtime",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/react-dom": [
+/******/ 				"default",
+/******/ 				"./react-dom",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/taro-ui": [
+/******/ 				"default",
+/******/ 				"./taro-ui",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/@tarojs/runtime": [
+/******/ 				"default",
+/******/ 				"./@tarojs/runtime",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/@tarojs/taro": [
+/******/ 				"default",
+/******/ 				"./@tarojs/taro",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/react": [
+/******/ 				"default",
+/******/ 				"./react",
+/******/ 				null
+/******/ 			],
+/******/ 			"webpack/container/remote/react/jsx-runtime": [
+/******/ 				"default",
+/******/ 				"./react/jsx-runtime",
+/******/ 				null
+/******/ 			]
+/******/ 		};
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /******/ 		__webpack_require__.taro = function(get) {
 /******/ 			for (var id in idToExternalAndNameMapping) {
 /******/ 				var mappedName = idToExternalAndNameMapping[id][1];
@@ -215,7 +291,46 @@
 /******/ 		};
 /******/ 		
 /******/ 		__webpack_require__.f.j = function(chunkId, promises) {
+<<<<<<< HEAD
 /******/ 				installedChunks[chunkId] = 0;
+=======
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if("runtime" != chunkId) {
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise(function(resolve, reject) { installedChunkData = installedChunks[chunkId] = [resolve, reject]; });
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = function(event) {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						} else installedChunks[chunkId] = 0;
+/******/ 					}
+/******/ 				}
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /******/ 		};
 /******/ 		
 /******/ 		// no prefetching

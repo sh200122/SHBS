@@ -1,6 +1,33 @@
 "use strict";
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([["pages/cart/index"],{
 
+<<<<<<< HEAD
+=======
+/***/ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./src/pages/cart/index.tsx":
+/*!**************************************************************************************************************!*\
+  !*** ./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./src/pages/cart/index.tsx ***!
+  \**************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ index; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "webpack/container/remote/react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "webpack/container/remote/react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function index(_ref) {
+  let {} = _ref;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: "index"
+  });
+}
+
+/***/ }),
+
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /***/ "./src/pages/cart/index.tsx":
 /*!**********************************!*\
   !*** ./src/pages/cart/index.tsx ***!
@@ -9,22 +36,36 @@
 
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/runtime */ "webpack/container/remote/@tarojs/runtime");
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__);
+<<<<<<< HEAD
 Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+=======
+/* harmony import */ var _node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx */ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./src/pages/cart/index.tsx");
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 
 
 var config = {};
 
 
 
+<<<<<<< HEAD
 var taroOption = (0,_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createPageConfig)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), 'pages/cart/index', {root:{cn:[]}}, config || {})
 if (Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()) && Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
   taroOption.behaviors = (taroOption.behaviors || []).concat(Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
+=======
+var taroOption = (0,_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createPageConfig)(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], 'pages/cart/index', {root:{cn:[]}}, config || {})
+if (_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"] && _node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"].behaviors) {
+  taroOption.behaviors = (taroOption.behaviors || []).concat(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"].behaviors)
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 }
 var inst = Page(taroOption)
 
 
 
+<<<<<<< HEAD
 /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/cart/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+=======
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_cart_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"]);
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 
 
 /***/ })

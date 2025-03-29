@@ -1,6 +1,211 @@
 "use strict";
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([["pages/home/index"],{
 
+<<<<<<< HEAD
+=======
+/***/ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./src/pages/home/index.tsx":
+/*!**************************************************************************************************************!*\
+  !*** ./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./src/pages/home/index.tsx ***!
+  \**************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Dashboard; }
+/* harmony export */ });
+/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @tarojs/components */ "./node_modules/@tarojs/plugin-platform-weapp/dist/components-react.js");
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/Header */ "./src/components/Header.tsx");
+/* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Footer */ "./src/components/Footer.tsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "webpack/container/remote/react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_ProductBlock__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/ProductBlock */ "./src/components/ProductBlock.tsx");
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/utils/auth */ "./src/utils/auth.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "webpack/container/remote/react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
+
+
+
+
+
+function Dashboard() {
+  const [bannerList] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([{
+    id: 1,
+    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+  }, {
+    id: 2,
+    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+  }, {
+    id: 3,
+    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+  }]);
+  const [products, setProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [limitTimeProducts, setLimitTimeProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [hotSaleProducts, setHotSaleProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [recommendProducts, setRecommendProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+
+  // 添加登录检查
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    const checkLogin = () => {
+      try {
+        const token = (0,_utils_auth__WEBPACK_IMPORTED_MODULE_5__.getToken)();
+        if (!token) {
+          _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().redirectTo({
+            url: "/pages/login/index"
+          });
+        }
+      } catch (error) {
+        console.error("检查登录状态失败:", error);
+        _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().redirectTo({
+          url: "/pages/login/index"
+        });
+      }
+    };
+    checkLogin();
+  }, []);
+
+  // 随机打乱数组的函数
+  const shuffleArray = array => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  // 获取商品数据
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().request({
+          url: "http://localhost:5000/api/product",
+          method: "GET"
+        });
+
+        // 只过滤 status 为 active 的商品
+        const activeProducts = response.data.filter(product => product.status === "active");
+
+        // 随机打乱并分配到不同区块
+        const shuffled = shuffleArray(activeProducts);
+        setProducts(activeProducts);
+        setLimitTimeProducts(shuffled.slice(0, 4));
+        setHotSaleProducts(shuffled.slice(4, 8));
+        setRecommendProducts(shuffled.slice(8, 12));
+      } catch (error) {
+        console.error("获取商品失败:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+    className: "min-h-screen",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Header__WEBPACK_IMPORTED_MODULE_0__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.ScrollView, {
+      className: "fixed top-_11p_ h-_84p_ bg-gray-100 overflow-y-scroll w-full",
+      scrollY: true,
+      enableFlex: true,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+        className: "bg-sky-500 h-_30p_",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Swiper, {
+          className: "h-full w-full",
+          indicatorDots: true,
+          autoplay: true,
+          interval: 3000,
+          circular: true,
+          children: bannerList.map(banner => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.SwiperItem, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Image, {
+              className: "w-full h-full",
+              src: banner.image,
+              mode: "aspectFill"
+            })
+          }, banner.id))
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+        className: "h-_70p_",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "flex p-4 justify-between items-center h-_10p_ bg-white",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-2xl font-bold",
+            children: "\u231B\u9650\u65F6\u6361\u6F0F"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-sm text-gray-500",
+            children: "\u67E5\u770B\u66F4\u591A"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "h-_90p_ p-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+            className: "grid grid-cols-2 gap-2 h-full",
+            children: limitTimeProducts.map(product => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ProductBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: product._id,
+              image: product.image,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              onClick: () => {}
+            }, product._id))
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+        className: "h-_70p_",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "flex p-4 justify-between items-center h-_10p_ bg-white",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-2xl font-bold",
+            children: "\uD83D\uDD25\u70ED\u5356\u4E8C\u624B"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-sm text-gray-500",
+            children: "\u67E5\u770B\u66F4\u591A"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "h-_90p_ p-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+            className: "grid grid-cols-2 gap-2 h-full",
+            children: hotSaleProducts.map(product => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ProductBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: product._id,
+              image: product.image,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              onClick: () => {}
+            }, product._id))
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+        className: "h-_70p_",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "flex p-4 justify-between items-center h-_10p_ bg-white",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-2xl font-bold",
+            children: "\uD83D\uDC40\u731C\u4F60\u559C\u6B22"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
+            className: "text-sm text-gray-500",
+            children: "\u67E5\u770B\u66F4\u591A"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+          className: "h-_90p_ p-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
+            className: "grid grid-cols-2 gap-2 h-full",
+            children: recommendProducts.map(product => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ProductBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: product._id,
+              image: product.image,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              onClick: () => {}
+            }, product._id))
+          })
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Footer__WEBPACK_IMPORTED_MODULE_1__["default"], {})]
+  });
+}
+
+/***/ }),
+
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /***/ "./src/pages/home/index.tsx":
 /*!**********************************!*\
   !*** ./src/pages/home/index.tsx ***!
@@ -9,22 +214,36 @@
 
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/runtime */ "webpack/container/remote/@tarojs/runtime");
 /* harmony import */ var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__);
+<<<<<<< HEAD
 Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+=======
+/* harmony import */ var _node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx */ "./node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./src/pages/home/index.tsx");
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 
 
 var config = {};
 
 
 
+<<<<<<< HEAD
 var taroOption = (0,_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createPageConfig)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), 'pages/home/index', {root:{cn:[]}}, config || {})
 if (Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()) && Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())) {
   taroOption.behaviors = (taroOption.behaviors || []).concat(Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
+=======
+var taroOption = (0,_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createPageConfig)(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], 'pages/home/index', {root:{cn:[]}}, config || {})
+if (_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"] && _node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"].behaviors) {
+  taroOption.behaviors = (taroOption.behaviors || []).concat(_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"].behaviors)
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 }
 var inst = Page(taroOption)
 
 
 
+<<<<<<< HEAD
 /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (Object(function webpackMissingModule() { var e = new Error("Cannot find module '!!../../../node_modules/@tarojs/taro-loader/lib/entry-cache.js?name=pages/home/index!./index.tsx'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+=======
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_tarojs_taro_loader_lib_entry_cache_js_name_pages_home_index_index_tsx__WEBPACK_IMPORTED_MODULE_1__["default"]);
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 
 
 /***/ })
@@ -32,7 +251,11 @@ var inst = Page(taroOption)
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
+<<<<<<< HEAD
 /******/ __webpack_require__.O(0, ["common"], function() { return __webpack_exec__("./src/pages/home/index.tsx"); });
+=======
+/******/ __webpack_require__.O(0, ["taro","common"], function() { return __webpack_exec__("./src/pages/home/index.tsx"); });
+>>>>>>> 0b656848ed1f3d3219a14cfb4bf40a131a09b680
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
