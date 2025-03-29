@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 import Footer from "@/components/Footer";
 import ProductBlock from "@/components/ProductBlock";
+import { getToken } from "@/utils/auth";
 
 interface Product {
   _id: string;

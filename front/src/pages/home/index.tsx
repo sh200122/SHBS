@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 import ProductBlock from "@/components/ProductBlock";
+import { getToken } from "@/utils/auth";
 
 interface Product {
   _id: string;
@@ -49,9 +50,8 @@ export default function Dashboard() {
   useEffect(() => {
     const checkLogin = () => {
       try {
-        const userInfo = Taro.getStorageSync("user");
-        if (!userInfo) {
-          // 未登录，跳转到登录页
+        const token = getToken();
+        if (!token) {
           Taro.redirectTo({ url: "/pages/login/index" });
         }
       } catch (error) {

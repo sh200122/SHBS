@@ -211,6 +211,36 @@ function ProductBlock(_ref) {
   });
 }
 
+/***/ }),
+
+/***/ "./src/utils/auth.ts":
+/*!***************************!*\
+  !*** ./src/utils/auth.ts ***!
+  \***************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getToken: function() { return /* binding */ getToken; },
+/* harmony export */   logout: function() { return /* binding */ logout; },
+/* harmony export */   setToken: function() { return /* binding */ setToken; }
+/* harmony export */ });
+/* unused harmony export removeToken */
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__);
+
+const setToken = token => {
+  _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().setStorageSync("token", token);
+};
+const getToken = () => {
+  return _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().getStorageSync("token");
+};
+const removeToken = () => {
+  _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().removeStorageSync("token");
+};
+const logout = () => {
+  removeToken();
+};
+
 /***/ })
 
 }]);

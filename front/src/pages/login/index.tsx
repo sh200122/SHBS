@@ -2,19 +2,18 @@ import React from "react";
 import Taro from "@tarojs/taro";
 import { View, Button, Text } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
+import { setToken } from "@/utils/auth";
 
 type Props = {};
 
 export default function Login({}: Props) {
   const handleWxLogin = async () => {
     try {
-      // 调用微信小程序登录接口获取code
       Taro.login({
         success: async (res) => {
           if (res.code) {
-            // 发送code到后端
             const response = await Taro.request({
-              url: "http://localhost:5000/api/user/wx-login", // 使用完整的URL
+              url: "http://localhost:5000/api/user/wx-login",
               method: "POST",
               data: {
                 code: res.code,
@@ -22,9 +21,8 @@ export default function Login({}: Props) {
             });
 
             if (response.data.success) {
-              // 登录成功，可以存储用户信息到本地
-              Taro.setStorageSync("user", JSON.stringify(response.data.user));
-              // 跳转到首页或其他页面
+              // 保存 token 和用户信息
+              setToken(response.data.token);
               Taro.reLaunch({ url: "/pages/home/index" });
             }
           }

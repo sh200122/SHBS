@@ -10,18 +10,18 @@ import { View, Text, Button, ScrollView } from "@tarojs/components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Taro from "@tarojs/taro";
+import { logout } from "@/utils/auth";
 
 type Props = {};
 
 export default function Setting({}: Props) {
   const handleLogout = () => {
-    Taro.removeStorageSync("user");
-    // 跳转回登录页
+    logout(); // 使用新的 logout 函数
     setTimeout(() => {
       Taro.reLaunch({
         url: "/pages/login/index",
       });
-    }, 1000); // 延迟 1 秒，让用户看到退出提示
+    }, 1000);
   };
 
   return (
