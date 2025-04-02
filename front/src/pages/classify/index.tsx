@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProductBlock from "@/components/ProductBlock";
-import { ScrollView, View, Text, Image } from "@tarojs/components";
+import { ScrollView, View, Text } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 
@@ -13,6 +13,7 @@ interface Product {
   description: string;
   category: string;
   status: "active" | "inactive";
+  adminId: string;
 }
 
 export default function Index() {
@@ -22,11 +23,11 @@ export default function Index() {
   const categories = [
     { id: 1, name: "手机", icon: "📱" },
     { id: 2, name: "电脑", icon: "💻" },
-    { id: 3, name: "服饰", icon: "👔" },
-    { id: 4, name: "鞋子", icon: "👟" },
     { id: 5, name: "手表", icon: "⌚" },
     { id: 6, name: "相机", icon: "📷" },
     { id: 7, name: "家电", icon: "🏠" },
+    { id: 3, name: "服饰", icon: "👔" },
+    { id: 4, name: "鞋子", icon: "👟" },
     { id: 8, name: "其他", icon: "📦" },
   ];
 
@@ -107,6 +108,7 @@ export default function Index() {
                   name={product.name}
                   price={product.price}
                   description={product.description}
+                  adminId={product.adminId}
                   onClick={() => {}}
                 />
               ))}

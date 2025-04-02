@@ -9,6 +9,7 @@ interface ProductProps {
   price: number;
   description: string;
   onClick?: () => void;
+  adminId: string;
 }
 
 export default function ProductBlock({
@@ -18,6 +19,7 @@ export default function ProductBlock({
   price,
   description,
   onClick,
+  adminId,
 }: ProductProps) {
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -32,17 +34,66 @@ export default function ProductBlock({
     setLoading(false);
   };
 
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    // 检查登录状态
+    const token = Taro.getStorageSync("token");
+    if (!token) {
+      Taro.showToast({
+        title: "请先登录",
+        icon: "error",
+        duration: 2000,
+      });
+      return;
+    }
+
+    // 检查商品ID
+    if (!id) {
+      console.error("Product ID is missing");
+      Taro.showToast({
+        title: "商品信息错误",
+        icon: "error",
+        duration: 2000,
+      });
+      return;
+    }
+
+    try {
+      const response = await Taro.request({
+        url: "http://localhost:5000/api/cart/add",
+        method: "POST",
+        data: {
+          productId: id,
+          adminId,
+        },
+        header: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.statusCode === 200) {
+        Taro.showToast({
+          title: "已添加到购物车",
+          icon: "success",
+          duration: 2000,
+        });
+        console.log("购物车更新成功:", response.data);
+      } else {
+        throw new Error(response.data.message || "添加失败");
+      }
+    } catch (error: any) {
+      console.error("添加购物车错误:", error);
+      Taro.showToast({
+        title: error.message || "添加失败",
+        icon: "error",
+        duration: 2000,
+      });
     }
   };
 
   return (
-    <View
-      className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-200 active:scale-95"
-      onClick={handleClick}
-    >
+    <View className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-200 active:scale-95">
       {/* 商品图片 */}
       <View className="relative w-full h-32">
         {loading && (
@@ -81,20 +132,9 @@ export default function ProductBlock({
         <View className="absolute bottom-3 right-2 flex gap-2">
           <View
             className="rounded-lg transition-colors duration-200"
-            hover-class="bg-yellow-500"
-            hover-stay-time={100}
-          >
-            <Text
-              className="text-2xl text-center transition-transform duration-200"
-              hover-class="scale-110"
-            >
-              🛍️
-            </Text>
-          </View>
-          <View
-            className="rounded-lg transition-colors duration-200"
             hover-class="bg-red-500"
             hover-stay-time={100}
+            onClick={handleAddToCart}
           >
             <Text
               className="text-2xl text-center transition-transform duration-200"

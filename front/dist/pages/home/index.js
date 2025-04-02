@@ -29,16 +29,17 @@
 
 
 
+
 function Dashboard() {
   const [bannerList] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([{
     id: 1,
-    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+    image: "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner1.jpg?raw=true"
   }, {
     id: 2,
-    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+    image: "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner2.jpg?raw=true"
   }, {
     id: 3,
-    image: "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true"
+    image: "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner3.jpg?raw=true"
   }]);
   const [products, setProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [limitTimeProducts, setLimitTimeProducts] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
@@ -74,31 +75,34 @@ function Dashboard() {
     }
     return newArray;
   };
+  const fetchProducts = async () => {
+    try {
+      const response = await _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().request({
+        url: "http://localhost:5000/api/product",
+        method: "GET"
+      });
+
+      // 只过滤 status 为 active 的商品
+      const activeProducts = response.data.filter(product => product.status === "active");
+
+      // 随机打乱并分配到不同区块
+      const shuffled = shuffleArray(activeProducts);
+      setProducts(activeProducts);
+      setLimitTimeProducts(shuffled.slice(0, 4));
+      setHotSaleProducts(shuffled.slice(4, 8));
+      setRecommendProducts(shuffled.slice(8, 12));
+    } catch (error) {
+      console.error("获取商品失败:", error);
+    }
+  };
 
   // 获取商品数据
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().request({
-          url: "http://localhost:5000/api/product",
-          method: "GET"
-        });
-
-        // 只过滤 status 为 active 的商品
-        const activeProducts = response.data.filter(product => product.status === "active");
-
-        // 随机打乱并分配到不同区块
-        const shuffled = shuffleArray(activeProducts);
-        setProducts(activeProducts);
-        setLimitTimeProducts(shuffled.slice(0, 4));
-        setHotSaleProducts(shuffled.slice(4, 8));
-        setRecommendProducts(shuffled.slice(8, 12));
-      } catch (error) {
-        console.error("获取商品失败:", error);
-      }
-    };
     fetchProducts();
   }, []);
+  (0,_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__.useDidShow)(() => {
+    fetchProducts();
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
     className: "min-h-screen",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Header__WEBPACK_IMPORTED_MODULE_0__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.ScrollView, {
@@ -106,7 +110,7 @@ function Dashboard() {
       scrollY: true,
       enableFlex: true,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
-        className: "bg-sky-500 h-_30p_",
+        className: " h-_30p_",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Swiper, {
           className: "h-full w-full",
           indicatorDots: true,
@@ -130,6 +134,9 @@ function Dashboard() {
             children: "\u231B\u9650\u65F6\u6361\u6F0F"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
             className: "text-sm text-gray-500",
+            onClick: () => _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().reLaunch({
+              url: "/pages/more/index"
+            }),
             children: "\u67E5\u770B\u66F4\u591A"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
@@ -142,7 +149,8 @@ function Dashboard() {
               name: product.name,
               price: product.price,
               description: product.description,
-              onClick: () => {}
+              onClick: () => {},
+              adminId: product.adminId
             }, product._id))
           })
         })]
@@ -155,6 +163,9 @@ function Dashboard() {
             children: "\uD83D\uDD25\u70ED\u5356\u4E8C\u624B"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
             className: "text-sm text-gray-500",
+            onClick: () => _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().reLaunch({
+              url: "/pages/more/index"
+            }),
             children: "\u67E5\u770B\u66F4\u591A"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
@@ -167,6 +178,7 @@ function Dashboard() {
               name: product.name,
               price: product.price,
               description: product.description,
+              adminId: product.adminId,
               onClick: () => {}
             }, product._id))
           })
@@ -180,6 +192,9 @@ function Dashboard() {
             children: "\uD83D\uDC40\u731C\u4F60\u559C\u6B22"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.Text, {
             className: "text-sm text-gray-500",
+            onClick: () => _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default().reLaunch({
+              url: "/pages/more/index"
+            }),
             children: "\u67E5\u770B\u66F4\u591A"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_7__.View, {
@@ -192,7 +207,8 @@ function Dashboard() {
               name: product.name,
               price: product.price,
               description: product.description,
-              onClick: () => {}
+              onClick: () => {},
+              adminId: product.adminId
             }, product._id))
           })
         })]

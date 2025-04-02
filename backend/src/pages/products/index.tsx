@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Taro from "@tarojs/taro";
 import { useState, useEffect } from "react";
+import { useDidShow } from "@tarojs/taro";
+
 type Props = {};
 
 interface Product {
@@ -37,6 +39,10 @@ export default function Products({}: Props) {
       },
     });
   }, []);
+
+  useDidShow(() => {
+    getAdminInfo();
+  });
 
   const handleDeleteProduct = (product: Product) => {
     const adminInfo = getAdminInfo();

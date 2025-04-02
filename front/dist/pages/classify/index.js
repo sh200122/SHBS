@@ -39,14 +39,6 @@ function Index() {
     name: "电脑",
     icon: "💻"
   }, {
-    id: 3,
-    name: "服饰",
-    icon: "👔"
-  }, {
-    id: 4,
-    name: "鞋子",
-    icon: "👟"
-  }, {
     id: 5,
     name: "手表",
     icon: "⌚"
@@ -58,6 +50,14 @@ function Index() {
     id: 7,
     name: "家电",
     icon: "🏠"
+  }, {
+    id: 3,
+    name: "服饰",
+    icon: "👔"
+  }, {
+    id: 4,
+    name: "鞋子",
+    icon: "👟"
   }, {
     id: 8,
     name: "其他",
@@ -130,6 +130,7 @@ function Index() {
             name: product.name,
             price: product.price,
             description: product.description,
+            adminId: product.adminId,
             onClick: () => {}
           }, product._id))
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_6__.View, {

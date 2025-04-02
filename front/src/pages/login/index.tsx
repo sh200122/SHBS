@@ -1,8 +1,7 @@
-import React from "react";
 import Taro from "@tarojs/taro";
 import { View, Button, Text } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
-import { setToken } from "@/utils/auth";
+import { setToken, setUserId } from "@/utils/auth";
 
 type Props = {};
 
@@ -23,6 +22,7 @@ export default function Login({}: Props) {
             if (response.data.success) {
               // 保存 token 和用户信息
               setToken(response.data.token);
+              setUserId(response.data.user._id);
               Taro.reLaunch({ url: "/pages/home/index" });
             }
           }

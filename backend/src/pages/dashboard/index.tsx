@@ -3,10 +3,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
+import { useDidShow } from "@tarojs/taro";
 
 interface Statistics {
   idleCount: number;
-  soldCount: number;
+  makeMoney: number;
   completedOrders: number;
   pendingOrders: number;
 }
@@ -14,63 +15,10 @@ interface Statistics {
 export default function Dashboard() {
   const [stats, setStats] = useState<Statistics>({
     idleCount: 0,
-    soldCount: 0,
+    makeMoney: 0,
     completedOrders: 0,
     pendingOrders: 0,
   });
-
-  const fetchData = async () => {
-    try {
-      const token = Taro.getStorageSync("token");
-      const adminInfo=Taro.getStorageSync('adminInfo')
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      // 获取商品数据
-      const productsRes = await Taro.request({
-        url: "http://localhost:5000/api/product/admin",
-        method: "GET",
-        header:{
-          'admin-id':adminInfo._id
-        },
-      });
-
-      // 获取订单数据
-      const ordersRes = await Taro.request({
-        url: "http://localhost:5000/api/orders",
-        method: "GET",
-        header: headers,
-      });
-
-      if (productsRes.statusCode === 200 && ordersRes.statusCode === 200) {
-        const products = productsRes.data;
-        const orders = ordersRes.data;
-
-        // 统计商品数据
-        const idleProducts = products.filter((p) => !p.isSold);
-
-        // 统计订单数据
-        const completedOrders = orders.filter((o) => o.status === "已完成");
-        const pendingOrders = orders.filter((o) => o.status === "待发货");
-
-        const soldProducts = completedOrders;
-
-        setStats({
-          idleCount: idleProducts.length,
-          soldCount: soldProducts.length,
-          completedOrders: completedOrders.length,
-          pendingOrders: pendingOrders.length,
-        });
-      }
-    } catch (error) {
-      console.error("获取数据失败:", error);
-      Taro.showToast({
-        title: "获取数据失败",
-        icon: "error",
-      });
-    }
-  };
 
   useEffect(() => {
     // 验证token
@@ -79,7 +27,7 @@ export default function Dashboard() {
         key: "token",
         success: (res) => {
           console.log("Token:", res.data);
-          fetchData();
+          fetchDashboardData();
         },
         fail: () => {
           console.warn("未检测到 Token，跳转至登录页");
@@ -88,6 +36,67 @@ export default function Dashboard() {
       });
     }, 500);
   }, []);
+
+  useDidShow(() => {
+    fetchDashboardData();
+  });
+
+  const fetchDashboardData = async () => {
+    try {
+      const adminInfo = Taro.getStorageSync("adminInfo");
+      const productRes = await Taro.request({
+        url: "http://localhost:5000/api/product/admin",
+        method: "GET",
+        header: {
+          "admin-id": adminInfo._id,
+        },
+      });
+      const orderRes = await Taro.request({
+        url: "http://localhost:5000/api/orders/",
+        method: "GET",
+        header: {
+          "admin-id": adminInfo._id,
+        },
+      });
+
+      // 修复这里：正确获取响应数据
+      const productData = productRes.data;
+      const orderData = orderRes.data.data;
+
+      // 确保数据存在后再处理
+      if (!productData || !orderData) {
+        throw new Error("返回数据格式错误");
+      }
+
+      const idleCount = productData.length;
+      const makeMoney = orderData.reduce((total: number, order: any) => {
+        if (order.status === "已完成") {
+          return total + order.totalAmount;
+        }
+        return total;
+      }, 0);
+
+      const completedOrders = orderData.filter(
+        (order: any) => order.status === "已完成"
+      ).length;
+      const pendingOrders = orderData.filter(
+        (order: any) => order.status === "待发货"
+      ).length;
+
+      setStats({
+        idleCount,
+        makeMoney,
+        completedOrders,
+        pendingOrders,
+      });
+    } catch (error) {
+      console.error("获取数据失败", error);
+      Taro.showToast({
+        title: "获取数据失败",
+        icon: "none",
+      });
+    }
+  };
 
   const statItems = [
     {
@@ -98,8 +107,8 @@ export default function Dashboard() {
       icon: "📦",
     },
     {
-      title: "已售商品",
-      value: stats.soldCount,
+      title: "已赚取(￥)",
+      value: stats.makeMoney,
       bgColor: "bg-green-100",
       textColor: "text-green-600",
       icon: "💰",
@@ -162,7 +171,10 @@ export default function Dashboard() {
 
         <View className="grid grid-cols-2 gap-4">
           {statItems.map((item, index) => (
-            <View key={index} className={`${item.bgColor} p-4 rounded-lg shadow-md`}>
+            <View
+              key={index}
+              className={`${item.bgColor} p-4 rounded-lg shadow-md`}
+            >
               <View className="flex items-center justify-between">
                 <Text className="text-2xl mb-2">{item.icon}</Text>
                 <Text className={`${item.textColor} text-2xl font-bold`}>

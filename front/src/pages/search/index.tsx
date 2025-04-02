@@ -1,9 +1,7 @@
 import { View, Text, Input } from "@tarojs/components";
 import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
-import Footer from "@/components/Footer";
 import ProductBlock from "@/components/ProductBlock";
-import { getToken } from "@/utils/auth";
 
 interface Product {
   _id: string;
@@ -12,9 +10,10 @@ interface Product {
   price: number;
   description: string;
   status: "active" | "inactive";
+  adminId: string;
 }
 
-const HOT_SEARCHES = ["手机", "电脑", "耳机", "平板", "相机", "手表"]; // 模拟热门搜索数据
+const HOT_SEARCHES = ["手机", "电脑", "家电", "平板", "相机", "手表"]; // 模拟热门搜索数据
 
 export default function SearchResults() {
   const [keyword, setKeyword] = useState("");
@@ -119,6 +118,7 @@ export default function SearchResults() {
                 price={product.price}
                 description={product.description}
                 onClick={() => {}}
+                adminId={product.adminId}
               />
             ))}
           </View>

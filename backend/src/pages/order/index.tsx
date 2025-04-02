@@ -1,44 +1,59 @@
-import { View, Text, ScrollView } from "@tarojs/components";
-import { useState, useEffect } from "react";
+import { View, Text, ScrollView, Button } from "@tarojs/components";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Taro from "@tarojs/taro";
+import { useDidShow } from "@tarojs/taro";
 
 interface OrderItem {
   _id: string;
   orderNo: string;
-  status: string;
+  name: string;
+  quantity: number;
   totalAmount: number;
+  status: string;
   createTime: string;
-  buyerInfo: {
-    name: string;
-    phone: string;
-  };
-  products: Array<{
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }>;
 }
 
 export default function Order() {
   const [orders, setOrders] = useState<OrderItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // 获取订单列表
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  useDidShow(() => {
+    fetchOrders();
+  });
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "待发货":
+        return "text-blue-500";
+      case "待收货":
+        return "text-green-500";
+      case "已完成":
+        return "text-gray-500";
+      case "已取消":
+        return "text-red-500";
+      default:
+        return "text-gray-700";
+    }
+  };
+
   const fetchOrders = async () => {
+    setLoading(true);
     try {
-      const token = Taro.getStorageSync("token");
+      const adminInfo = Taro.getStorageSync("adminInfo");
       const res = await Taro.request({
         url: "http://localhost:5000/api/orders",
-        method: "GET",
         header: {
-          Authorization: `Bearer ${token}`,
+          "admin-id": adminInfo._id,
         },
       });
-      if (res.statusCode === 200) {
-        setOrders(res.data);
+      if (res.data.success) {
+        setOrders(res.data.data);
       }
     } catch (error) {
       console.error("获取订单列表失败:", error);
@@ -51,60 +66,42 @@ export default function Order() {
     }
   };
 
-  // 更新订单状态
-  const handleUpdateStatus = async (orderId: string, newStatus: string) => {
+  // 发货处理函数
+  const handleShip = async (orderId: string) => {
     try {
-      const token = Taro.getStorageSync("token");
+      const adminInfo = Taro.getStorageSync("adminInfo");
       const res = await Taro.request({
-        url: `http://localhost:5000/api/orders/${orderId}/status`,
+        url: `http://localhost:5000/api/orders/${orderId}/ship`,
         method: "PUT",
-        data: { status: newStatus },
         header: {
-          Authorization: `Bearer ${token}`,
+          "admin-id": adminInfo._id,
         },
       });
-      if (res.statusCode === 200) {
+
+      if (res.data.success) {
         Taro.showToast({
-          title: "更新成功",
+          title: "发货成功",
           icon: "success",
         });
-        fetchOrders(); // 刷新订单列表
+
+        // 使用后端返回的实际状态更新本地状态
+        const updatedOrder = res.data.data;
+        setOrders(
+          orders.map((order) =>
+            order._id === orderId
+              ? { ...order, status: updatedOrder.status }
+              : order
+          )
+        );
+      } else {
+        throw new Error(res.data.message || "发货失败");
       }
     } catch (error) {
-      console.error("更新订单状态失败:", error);
+      console.error("发货失败:", error);
       Taro.showToast({
-        title: "更新失败",
+        title: "发货失败",
         icon: "error",
       });
-    }
-  };
-
-  const formatTime = (time: string) => {
-    const date = new Date(time);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours().toString().padStart(2, "0");
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    return `${year}年${month}月${day}日 ${hour}:${minute}`;
-  };
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "待付款":
-        return "text-orange-500";
-      case "待发货":
-        return "text-blue-500";
-      case "已发货":
-        return "text-green-500";
-      case "已完成":
-        return "text-gray-500";
-      default:
-        return "text-gray-700";
     }
   };
 
@@ -118,7 +115,7 @@ export default function Order() {
         enableFlex
       >
         {loading ? (
-          <View className="flex items-center justify-center h-full">
+          <View className="flex items-center justify-center h-32">
             <Text className="text-gray-500">加载中...</Text>
           </View>
         ) : orders.length === 0 ? (
@@ -129,48 +126,61 @@ export default function Order() {
           orders.map((order) => (
             <View
               key={order._id}
-              className="bg-white rounded-lg shadow mb-4 p-4 w-11/12"
+              className="bg-white rounded-lg p-4 mb-4 shadow-sm w-[92%]"
             >
-              <View className="flex justify-between items-center border-b border-gray-200 pb-2">
-                <Text className="text-gray-600">订单号：{order.orderNo}</Text>
-                <Text className={`${getStatusColor(order.status)} font-medium`}>
+              <View className="flex justify-between items-center mb-2">
+                <Text className="text-sm text-gray-500">
+                  订单号：{order.orderNo}
+                </Text>
+                <Text
+                  className={`text-primary ${getStatusColor(order.status)}`}
+                >
                   {order.status}
                 </Text>
               </View>
 
-              {order.products.map((product) => (
-                <View
-                  key={product.id}
-                  className="py-2 border-b border-gray-100"
-                >
-                  <Text className="text-gray-800">{product.name}</Text>
-                  <View className="flex justify-between mt-1">
-                    <Text className="text-gray-600">¥{product.price}</Text>
-                    <Text className="text-gray-600">x{product.quantity}</Text>
-                  </View>
+              <View className="border-t border-b border-gray-100 py-3 my-2">
+                <View className="flex justify-between items-center">
+                  <Text className="text-base font-medium">{order.name}</Text>
+                  <Text className="text-sm">x{order.quantity}</Text>
                 </View>
-              ))}
-
-              <View className="mt-2 flex justify-between items-center">
-                <Text className="text-gray-600">{formatTime(order.createTime)}</Text>
-                <Text className="font-medium">总计：¥{order.totalAmount}</Text>
               </View>
 
+              <View className="flex justify-between items-center mt-2">
+                <Text className="text-sm text-gray-500">
+                  {new Date(order.createTime).toLocaleString()}
+                </Text>
+                <Text className="text-lg font-medium text-primary">
+                  总计¥{order.totalAmount.toFixed(2)}
+                </Text>
+              </View>
+
+              {/* 添加发货按钮 */}
               {order.status === "待发货" && (
-                <View className="mt-3 flex justify-end">
-                  <View
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => handleUpdateStatus(order._id, "已发货")}
-                  >
-                    <Text>发货</Text>
-                  </View>
+                <Button
+                  className="bg-blue-500 text-white mt-3 rounded w-full"
+                  hoverClass="bg-blue-600"
+                  onClick={() => handleShip(order._id)}
+                >
+                  确认发货
+                </Button>
+              )}
+
+              {/* 已发货订单显示物流信息 */}
+              {order.status === "待收货" && (
+                <View className="mt-3 border-t border-gray-100 pt-2">
+                  <Text className="text-sm text-gray-500">
+                    物流信息: 已发货，配送中
+                  </Text>
                 </View>
               )}
             </View>
           ))
         )}
-      </ScrollView>
 
+        {/* 底部留白 */}
+        <View className="h-6"></View>
+      </ScrollView>
       <Footer />
     </View>
   );

@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
+import { useDidShow } from "@tarojs/taro";
 import ProductBlock from "@/components/ProductBlock";
 import { getToken } from "@/utils/auth";
 
@@ -20,6 +21,7 @@ interface Product {
   price: number;
   description: string;
   status: "active" | "inactive";
+  adminId: string;
 }
 
 export default function Dashboard() {
@@ -27,17 +29,17 @@ export default function Dashboard() {
     {
       id: 1,
       image:
-        "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true",
+        "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner1.jpg?raw=true",
     },
     {
       id: 2,
       image:
-        "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true",
+        "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner2.jpg?raw=true",
     },
     {
       id: 3,
       image:
-        "https://github.com/sh200122/SHBS/blob/main/front/public/images/banner1.jpg?raw=true",
+        "https://github.com/sh200122/SHBS/blob/sh/front/public/images/banner3.jpg?raw=true",
     },
   ]);
 
@@ -73,34 +75,39 @@ export default function Dashboard() {
     return newArray;
   };
 
+  const fetchProducts = async () => {
+    try {
+      const response = await Taro.request({
+        url: "http://localhost:5000/api/product",
+        method: "GET",
+      });
+
+      // 只过滤 status 为 active 的商品
+      const activeProducts = response.data.filter(
+        (product: Product) => product.status === "active"
+      );
+
+      // 随机打乱并分配到不同区块
+      const shuffled = shuffleArray(activeProducts);
+
+      setProducts(activeProducts);
+      setLimitTimeProducts(shuffled.slice(0, 4));
+      setHotSaleProducts(shuffled.slice(4, 8));
+      setRecommendProducts(shuffled.slice(8, 12));
+    } catch (error) {
+      console.error("获取商品失败:", error);
+    }
+  };
+
   // 获取商品数据
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await Taro.request({
-          url: "http://localhost:5000/api/product",
-          method: "GET",
-        });
-
-        // 只过滤 status 为 active 的商品
-        const activeProducts = response.data.filter(
-          (product: Product) => product.status === "active"
-        );
-
-        // 随机打乱并分配到不同区块
-        const shuffled = shuffleArray(activeProducts);
-
-        setProducts(activeProducts);
-        setLimitTimeProducts(shuffled.slice(0, 4));
-        setHotSaleProducts(shuffled.slice(4, 8));
-        setRecommendProducts(shuffled.slice(8, 12));
-      } catch (error) {
-        console.error("获取商品失败:", error);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  useDidShow(() => {
+    fetchProducts();
+  });
+
   return (
     <View className="min-h-screen">
       <Header />
@@ -110,7 +117,7 @@ export default function Dashboard() {
         enableFlex
       >
         {/* 轮播图 */}
-        <View className="bg-sky-500 h-[30%]">
+        <View className=" h-[30%]">
           <Swiper
             className="h-full w-full"
             indicatorDots
@@ -133,7 +140,12 @@ export default function Dashboard() {
         <View className="h-[70%]">
           <View className="flex p-4 justify-between items-center h-[10%] bg-white">
             <Text className="text-2xl font-bold">⌛限时捡漏</Text>
-            <Text className="text-sm text-gray-500">查看更多</Text>
+            <Text
+              className="text-sm text-gray-500"
+              onClick={() => Taro.reLaunch({ url: "/pages/more/index" })}
+            >
+              查看更多
+            </Text>
           </View>
           <View className="h-[90%] p-2">
             <View className="grid grid-cols-2 gap-2 h-full">
@@ -146,6 +158,7 @@ export default function Dashboard() {
                   price={product.price}
                   description={product.description}
                   onClick={() => {}}
+                  adminId={product.adminId}
                 />
               ))}
             </View>
@@ -156,7 +169,12 @@ export default function Dashboard() {
         <View className="h-[70%]">
           <View className="flex p-4 justify-between items-center h-[10%] bg-white">
             <Text className="text-2xl font-bold">🔥热卖二手</Text>
-            <Text className="text-sm text-gray-500">查看更多</Text>
+            <Text
+              className="text-sm text-gray-500"
+              onClick={() => Taro.reLaunch({ url: "/pages/more/index" })}
+            >
+              查看更多
+            </Text>
           </View>
           <View className="h-[90%] p-2">
             <View className="grid grid-cols-2 gap-2 h-full">
@@ -168,6 +186,7 @@ export default function Dashboard() {
                   name={product.name}
                   price={product.price}
                   description={product.description}
+                  adminId={product.adminId}
                   onClick={() => {}}
                 />
               ))}
@@ -179,7 +198,12 @@ export default function Dashboard() {
         <View className="h-[70%]">
           <View className="flex p-4 justify-between items-center h-[10%] bg-white">
             <Text className="text-2xl font-bold">👀猜你喜欢</Text>
-            <Text className="text-sm text-gray-500">查看更多</Text>
+            <Text
+              className="text-sm text-gray-500"
+              onClick={() => Taro.reLaunch({ url: "/pages/more/index" })}
+            >
+              查看更多
+            </Text>
           </View>
           <View className="h-[90%] p-2">
             <View className="grid grid-cols-2 gap-2 h-full">
@@ -192,6 +216,7 @@ export default function Dashboard() {
                   price={product.price}
                   description={product.description}
                   onClick={() => {}}
+                  adminId={product.adminId}
                 />
               ))}
             </View>

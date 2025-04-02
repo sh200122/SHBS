@@ -93,8 +93,8 @@ export default function add({}: Props) {
         filePath: tempFilePath,
         encoding: "base64",
         success: (res) => {
-          const base64 = `data:image/jpeg;base64,${res.data}`;
-          resolve(base64);
+          // 不要在这里添加前缀，直接返回base64字符串
+          resolve(res.data as string);
         },
         fail: (err) => {
           console.error("转换失败:", err);
@@ -113,16 +113,29 @@ export default function add({}: Props) {
         sourceType: ["album", "camera"],
       });
 
-      // 压缩图片
+      // 更强力的压缩图片
       const compressRes = await Taro.compressImage({
         src: res.tempFilePaths[0],
-        quality: 80,
+        quality: 50, // 降低质量到50%
       });
 
       // 转换为 base64
       const base64Image = await imageToBase64(compressRes.tempFilePath);
 
-      setFormData({ ...formData, image: base64Image });
+      // 将前缀和base64分开处理
+      const imageData = `data:image/jpeg;base64,${base64Image}`;
+
+      // 检查大小
+      if (imageData.length > 1000000) {
+        // 约1MB的限制
+        Taro.showToast({
+          title: "图片过大，请选择更小的图片",
+          icon: "none",
+        });
+        return;
+      }
+
+      setFormData({ ...formData, image: imageData });
     } catch (error) {
       console.error("选择图片失败:", error);
       Taro.showToast({

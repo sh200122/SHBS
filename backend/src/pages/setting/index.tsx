@@ -1,16 +1,9 @@
-/*
- * @Author: alan alan.shi@duomai.com
- * @Date: 2025-03-05 14:51:28
- * @LastEditors: alan alan.shi@duomai.com
- * @LastEditTime: 2025-03-05 15:43:13
- * @FilePath: \front\src\pages\Setting.tsx
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { View, Text, Button, ScrollView } from "@tarojs/components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
+import { useDidShow } from "@tarojs/taro";
 
 type Props = {};
 
@@ -44,13 +37,13 @@ const StatListItem = ({ item }: { item: StatItem }) => (
 export default function Setting({}: Props) {
   const statData: StatItem[] = [
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
-    { icon: "💬", name: "水果10", count: "1k", unit: "人评论" },
+    { icon: "👁️", name: "水果10", count: "1k", unit: "人浏览" },
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
-    { icon: "💬", name: "水果10", count: "1k", unit: "人评论" },
+    { icon: "👁️", name: "水果10", count: "1k", unit: "人浏览" },
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
-    { icon: "💬", name: "水果10", count: "1k", unit: "人评论" },
+    { icon: "👁️", name: "水果10", count: "1k", unit: "人浏览" },
     { icon: "👁️", name: "小米20", count: "1w", unit: "人浏览" },
   ];
 
@@ -84,6 +77,10 @@ export default function Setting({}: Props) {
   useEffect(() => {
     getAdmin();
   }, []);
+
+  useDidShow(() => {
+    getAdmin();
+  });
 
   const handleLogout = () => {
     console.log("退出登录...");

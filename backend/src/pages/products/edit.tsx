@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -101,6 +101,23 @@ export default function edit({}: Props) {
     });
   };
 
+  const imageToBase64 = (tempFilePath: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      Taro.getFileSystemManager().readFile({
+        filePath: tempFilePath,
+        encoding: "base64",
+        success: (res) => {
+          // 直接返回base64字符串
+          resolve(res.data as string);
+        },
+        fail: (err) => {
+          console.error("转换失败:", err);
+          reject(err);
+        },
+      });
+    });
+  };
+
   const handleChooseImage = async () => {
     try {
       const res = await Taro.chooseImage({
@@ -109,15 +126,29 @@ export default function edit({}: Props) {
         sourceType: ["album", "camera"],
       });
 
-      // 将图片转换为Base64
-      const tempFilePath = res.tempFilePaths[0];
-      const fileContent = await Taro.getFileSystemManager().readFileSync(
-        tempFilePath,
-        "base64"
-      );
-      const base64Image = `data:image/jpeg;base64,${fileContent}`;
+      // 更强力的压缩图片
+      const compressRes = await Taro.compressImage({
+        src: res.tempFilePaths[0],
+        quality: 50, // 降低质量到50%
+      });
 
-      setImage(base64Image);
+      // 转换为 base64
+      const base64Image = await imageToBase64(compressRes.tempFilePath);
+
+      // 将前缀和base64分开处理
+      const imageData = `data:image/jpeg;base64,${base64Image}`;
+
+      // 检查大小
+      if (imageData.length > 1000000) {
+        // 约1MB的限制
+        Taro.showToast({
+          title: "图片过大，请选择更小的图片",
+          icon: "none",
+        });
+        return;
+      }
+
+      setImage(imageData);
 
       Taro.showToast({
         title: "图片选择成功",

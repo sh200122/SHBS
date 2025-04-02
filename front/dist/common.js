@@ -123,11 +123,14 @@ function Header(_ref) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ ProductBlock; }
 /* harmony export */ });
-/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tarojs/components */ "./node_modules/@tarojs/plugin-platform-weapp/dist/components-react.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "webpack/container/remote/react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "webpack/container/remote/react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _tarojs_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tarojs/components */ "./node_modules/@tarojs/plugin-platform-weapp/dist/components-react.js");
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
+/* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "webpack/container/remote/react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "webpack/container/remote/react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
@@ -138,10 +141,11 @@ function ProductBlock(_ref) {
     name,
     price,
     description,
-    onClick
+    onClick,
+    adminId
   } = _ref;
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-  const [imageError, setImageError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+  const [imageError, setImageError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const defaultImage = "/assets/images/default.png";
   const handleImageLoad = () => {
     setLoading(false);
@@ -150,23 +154,72 @@ function ProductBlock(_ref) {
     setImageError(true);
     setLoading(false);
   };
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
+  const handleAddToCart = async e => {
+    e.stopPropagation();
+
+    // 检查登录状态
+    const token = _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().getStorageSync("token");
+    if (!token) {
+      _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().showToast({
+        title: "请先登录",
+        icon: "error",
+        duration: 2000
+      });
+      return;
+    }
+
+    // 检查商品ID
+    if (!id) {
+      console.error("Product ID is missing");
+      _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().showToast({
+        title: "商品信息错误",
+        icon: "error",
+        duration: 2000
+      });
+      return;
+    }
+    try {
+      const response = await _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().request({
+        url: "http://localhost:5000/api/cart/add",
+        method: "POST",
+        data: {
+          productId: id,
+          adminId
+        },
+        header: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.statusCode === 200) {
+        _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().showToast({
+          title: "已添加到购物车",
+          icon: "success",
+          duration: 2000
+        });
+        console.log("购物车更新成功:", response.data);
+      } else {
+        throw new Error(response.data.message || "添加失败");
+      }
+    } catch (error) {
+      console.error("添加购物车错误:", error);
+      _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().showToast({
+        title: error.message || "添加失败",
+        icon: "error",
+        duration: 2000
+      });
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
     className: "bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-200 activecscale-95",
-    onClick: handleClick,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
       className: "relative w-full h-32",
-      children: [loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+      children: [loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
         className: "absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Text, {
           className: "text-gray-400",
           children: "\u52A0\u8F7D\u4E2D..."
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Image, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Image, {
         className: `w-full h-full object-cover transition-opacity duration-300 ${loading ? "opacity-0" : "opacity-100"}`,
         src: imageError ? defaultImage : image,
         mode: "aspectFill",
@@ -174,38 +227,30 @@ function ProductBlock(_ref) {
         onError: handleImageError,
         lazyLoad: true
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
       className: "p-2 flex flex-col relative",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Text, {
         className: "text-sm font-medium text-gray-800 truncate",
         children: name
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Text, {
         className: "text-xs text-gray-500 truncate mt-1",
         children: description
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Text, {
         className: "text-red-500 text-lg font-bold mt-1",
         children: ["\xA5", price]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
         className: "absolute bottom-3 right-2 flex gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
-          className: "rounded-lg transition-colors duration-200",
-          "hover-class": "bg-yellow-500",
-          "hover-stay-time": 100,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
-            className: "text-2xl text-center transition-transform duration-200",
-            "hover-class": "scale-110",
-            children: "\uD83D\uDECD\uFE0F"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.View, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.View, {
           className: "rounded-lg transition-colors duration-200",
           "hover-class": "bg-red-500",
           "hover-stay-time": 100,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_2__.Text, {
+          onClick: handleAddToCart,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tarojs_components__WEBPACK_IMPORTED_MODULE_3__.Text, {
             className: "text-2xl text-center transition-transform duration-200",
             "hover-class": "scale-110",
             children: "\uD83D\uDED2"
           })
-        })]
+        })
       })]
     })]
   });
@@ -222,9 +267,10 @@ function ProductBlock(_ref) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getToken: function() { return /* binding */ getToken; },
 /* harmony export */   logout: function() { return /* binding */ logout; },
-/* harmony export */   setToken: function() { return /* binding */ setToken; }
+/* harmony export */   setToken: function() { return /* binding */ setToken; },
+/* harmony export */   setUserId: function() { return /* binding */ setUserId; }
 /* harmony export */ });
-/* unused harmony export removeToken */
+/* unused harmony exports removeToken, getUserId, removeUserId */
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tarojs/taro */ "webpack/container/remote/@tarojs/taro");
 /* harmony import */ var _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -237,8 +283,19 @@ const getToken = () => {
 const removeToken = () => {
   _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().removeStorageSync("token");
 };
+const getUserId = () => {
+  return _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().getStorageSync("userId");
+};
+const setUserId = userId => {
+  _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().setStorageSync("userId", userId);
+};
+const removeUserId = () => {
+  _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().removeStorageSync("userId");
+};
 const logout = () => {
   removeToken();
+  removeUserId();
+  _tarojs_taro__WEBPACK_IMPORTED_MODULE_0___default().removeStorageSync("searchHistory"); // 清空搜索历史记录
 };
 
 /***/ })
